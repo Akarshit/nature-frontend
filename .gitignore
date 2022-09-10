@@ -39,4 +39,4 @@ next-env.d.ts
 scripts/nature-env
 
 # Temporary
-/yarn.lock
+yarn.lock
