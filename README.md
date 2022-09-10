@@ -12,6 +12,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 1. `brew services start mongodb-community@6.0`
 
+### Setup script dev
+
+1. [https://stackoverflow.com/a/69461885](https://stackoverflow.com/a/69461885)
+
 First, run the development server:
 
 ```bash
