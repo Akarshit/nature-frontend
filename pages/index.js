@@ -1,7 +1,4 @@
-import Head from 'next/head';
-/*import Image from 'next/image';*/
-import styles from '../styles/Home.module.css';
-import { useUIStore } from '../brain/store.js';
+import { useUIStore } from 'brain/store.js';
 import { Box, Flex, Heading, Image, Button, Text } from '@chakra-ui/react';
 
 export default function Home() {
@@ -14,7 +11,7 @@ export default function Home() {
         align="center"
         direction="column"
         grow="3"
-        bgImage="url('/hero.gif')"
+        bgImage="url('hero.gif')"
         bgSize="cover"
       >
         <Heading mt="10vh" color="white" flexGrow={2} fontFamily="Andale Mono">
