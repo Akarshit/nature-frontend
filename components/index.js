@@ -1,9 +1,2 @@
-import NavBar from './NavBar.jsx';
-import TrackWidget from './TrackWidget.jsx';
-
-const comps = {
-  NavBar,
-  TrackWidget,
-};
-
-export default comps;
+export { default as TrackWidget } from './TrackWidget.jsx';
+export { default as NavBar } from './NavBar.jsx';
