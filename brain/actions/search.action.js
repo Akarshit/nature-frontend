@@ -22,7 +22,13 @@ export const suggestAction = async (set, get, { query }) => {
   });
   for (const outing of outings) {
     if (outing.parent_id) {
-      parents[outing.parent_id].children.push(outing);
+      if (outing.parent_id in parents) {
+        // This is a child
+        parents[outing.parent_id].children.push(outing);
+      } else {
+        // This is a orphan child
+        parents[outing.entity_id] = outing;
+      }
     }
   }
   const suggestedResults = Object.values(parents);
