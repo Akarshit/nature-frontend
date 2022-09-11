@@ -35,8 +35,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Ignore venv
-scripts/nature-env
-
 # Temporary
 yarn.lock
