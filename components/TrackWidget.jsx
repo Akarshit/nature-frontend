@@ -2,6 +2,7 @@ import { Flex, Button, Input } from '@chakra-ui/react';
 import { useUIStore } from 'brain/store.js';
 import { debounce } from 'lodash';
 import { useCallback } from 'react';
+import Suggest from './Suggest';
 
 export default function TrackWidget() {
   const searchInput = useUIStore((state) => state.searchInput);
@@ -22,6 +23,11 @@ export default function TrackWidget() {
       <Flex align="stretch" direction="column">
         <Flex direction="row" justify="left" align="stretch"></Flex>
         <Flex direction="row" justify="space-around" w="75vw">
+          <Flex direction="column" align="stretch" flexShrink={2} mx={3} my={2}>
+            <Input placeholder="Search" size="md" />
+            <Suggest />
+          </Flex>
+
           <Input
             placeholder="Search"
             size="md"
@@ -40,7 +46,7 @@ export default function TrackWidget() {
             type="date"
             mx={3}
             my={2}
-            flexShrink={3}
+            flexShrink={8}
           />
           <Input
             placeholder="Checkout"
@@ -48,7 +54,7 @@ export default function TrackWidget() {
             type="date"
             mx={3}
             my={2}
-            flexShrink={3}
+            flexShrink={8}
           />
           <Button
             colorScheme="teal"
@@ -56,7 +62,7 @@ export default function TrackWidget() {
             width="75%"
             mx={3}
             my={2}
-            flexShrink={3}
+            flexShrink={8}
           >
             Track
           </Button>
