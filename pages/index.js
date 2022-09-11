@@ -1,9 +1,7 @@
 import { useUIStore } from 'brain/store.js';
 import { Box, Flex, Heading, Image, Button, Text } from '@chakra-ui/react';
-import TrackWidget from 'components/TrackWidget';
-import NavBar from 'components/NavBar';
+import { TrackWidget, NavBar } from 'components';
 
-console.log(TrackWidget);
 export default function Home() {
   const bears = useUIStore((state) => state.bears);
   const increasePopulation = useUIStore((state) => state.increasePopulation);

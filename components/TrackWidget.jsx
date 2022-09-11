@@ -1,17 +1,17 @@
-import {
-  Box,
-  Flex,
-  Heading,
-  Image,
-  Button,
-  Text,
-  Input,
-} from '@chakra-ui/react';
+import { Flex, Button, Input } from '@chakra-ui/react';
+import { useUIStore } from 'brain/store.js';
+import { debounce } from 'lodash';
+import { useCallback } from 'react';
 import Suggest from './Suggest';
 
 export default function TrackWidget() {
-  //const bears = useUIStore((state) => state.bears);
-  //const increasePopulation = useUIStore((state) => state.increasePopulation);
+  const searchInput = useUIStore((state) => state.searchInput);
+  const setSearchInput = useUIStore((state) => state.setSearchInput);
+  const getSuggestedResults = useUIStore((state) => state.getSuggestedResults);
+  const debouncedGetSuggestedResults = useCallback(
+    debounce(getSuggestedResults, 150),
+    []
+  );
   return (
     <Flex
       align="stretch"
@@ -25,9 +25,21 @@ export default function TrackWidget() {
         <Flex direction="row" justify="space-around" w="75vw">
           <Flex direction="column" align="stretch" flexShrink={2} mx={3} my={2}>
             <Input placeholder="Search" size="md" />
-            <Suggest></Suggest>
+            <Suggest />
           </Flex>
 
+          <Input
+            placeholder="Search"
+            size="md"
+            mx={3}
+            my={2}
+            flexShrink={2}
+            onChange={(e) => {
+              setSearchInput(e.target.value);
+              debouncedGetSuggestedResults(e.target.value);
+            }}
+            value={searchInput}
+          />
           <Input
             placeholder="Checkin"
             size="md"

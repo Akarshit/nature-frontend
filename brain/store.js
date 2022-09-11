@@ -1,11 +1,13 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
+import * as search from 'brain/actions/search.action.js';
 
 const useUIStore = create(
-  devtools((set) => ({
-    bears: 0,
-    increasePopulation: () =>
-      set((state) => ({ bears: state.bears + 1 }), false, 'increasePopulation'),
+  devtools((set, get) => ({
+    searchInput: '',
+    setSearchInput: (val) => set({ searchInput: val }, false, 'setSearchInput'),
+    suggestedResults: [],
+    getSuggestedResults: (query) => search.suggestAction(set, get, { query }),
   }))
 );
 
