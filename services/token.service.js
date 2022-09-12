@@ -18,6 +18,15 @@ class TokenService {
   setToken(token) {
     localStorage.setItem('token', JSON.stringify(token));
   }
+  setUser(user) {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+  getUser(user) {
+    return JSON.parse(localStorage.getItem('user'));
+  }
+  removeUser(user) {
+    localStorage.removeItem('user');
+  }
   removeToken() {
     localStorage.removeItem('token');
   }

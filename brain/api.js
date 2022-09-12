@@ -10,8 +10,7 @@ instance.interceptors.request.use(
   (config) => {
     const token = TokenService.getLocalAccessToken();
     if (token) {
-      // config.headers["Authorization"] = 'Bearer ' + token;  // for Spring Boot back-end
-      config.headers['x-access-token'] = token; // for Node.js Express back-end
+      config.headers['Authorization'] = 'Bearer ' + token;
     }
     return config;
   },
@@ -31,8 +30,9 @@ instance.interceptors.response.use(
       if (err.response.status === 401 && !originalConfig._retry) {
         originalConfig._retry = true;
         try {
-          const rs = await instance.post('/auth/refreshtoken', {
+          const rs = await instance.post('/auth/refresh-token', {
             refreshToken: TokenService.getLocalRefreshToken(),
+            email: TokenService.getUser().email,
           });
           const { accessToken } = rs.data;
           TokenService.updateLocalAccessToken(accessToken);

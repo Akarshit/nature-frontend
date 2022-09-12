@@ -10,5 +10,12 @@ export const oAuthLogin = async (set, get, { credential }) => {
   console.log(success);
   const { token, user } = success;
   TokenService.setToken(token);
+  TokenService.setUser(user);
   set({ user }, false, 'oAuthLogin');
+};
+
+export const logoutUser = async (set, get) => {
+  TokenService.removeToken();
+  TokenService.removeUser();
+  set({ user: null }, false, 'logoutUser');
 };
