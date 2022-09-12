@@ -21,13 +21,7 @@ const useUIStore = create(
       endDate: new Date().toJSON().slice(0, 10),
     },
     setSearchInput: (val) => {
-      set(
-        produce((state) => {
-          state.searchInput = val;
-        }),
-        false,
-        'setSearchInput'
-      );
+      set({ searchInput: val }, false, 'setSearchInput');
     },
     setEntityId: (val) => {
       set(
@@ -59,6 +53,10 @@ const useUIStore = create(
 
     suggestedResults: [],
     getSuggestedResults: (query) => search.suggestAction(set, get, { query }),
+    showSuggestions: false,
+    setShowSuggestions: (val) => {
+      set({ showSuggestions: val }, false, 'setShowSuggestions');
+    },
     createTracker: () => tracker.createTracker(set, get),
     oAuthLogin: (credential) => auth.oAuthLogin(set, get, { credential }),
   }))

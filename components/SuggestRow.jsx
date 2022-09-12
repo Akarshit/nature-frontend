@@ -27,9 +27,9 @@ function SuggestRowIcon(props) {
 
 export default function SuggestRow(props) {
   const { name, isChild, type, entityId } = props;
-  console.log(entityId);
   const setEntityId = useUIStore((state) => state.setEntityId);
   const setSearchInput = useUIStore((state) => state.setSearchInput);
+  const setShowSuggestions = useUIStore((state) => state.setShowSuggestions);
   return (
     <Flex
       align="stretch"
@@ -47,13 +47,12 @@ export default function SuggestRow(props) {
         background: type == 'recarea' && !isChild ? 'white' : 'blackAlpha.100',
         //color: "teal.500",
       }}
-      onClick={(e) => {
+      onMouseDown={(e) => {
         if (type == 'recarea' && !isChild) {
-          console.log('do nothing');
         } else {
-          console.log('hello', entityId);
           setEntityId(entityId);
           setSearchInput(toTitleCase(name));
+          setShowSuggestions(false);
         }
       }}
     >

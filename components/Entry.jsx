@@ -18,6 +18,7 @@ import { useUIStore } from 'brain/store.js';
 
 export default function Entry() {
   const oAuthLogin = useUIStore((state) => state.oAuthLogin);
+  const user = useUIStore((state) => state.user);
   const onSuccess = (res) => {
     console.log(res);
     const { credential } = res;
@@ -26,5 +27,9 @@ export default function Entry() {
   const onError = (err) => {
     console.log('failed:', err);
   };
-  return <GoogleLogin onSuccess={onSuccess} onError={onError} />;
+  if (user) {
+    return <Button>Logout {user.name}</Button>;
+  } else {
+    return <GoogleLogin onSuccess={onSuccess} onError={onError} />;
+  }
 }

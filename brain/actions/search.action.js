@@ -32,5 +32,9 @@ export const suggestAction = async (set, get, { query }) => {
     }
   }
   const suggestedResults = Object.values(parents);
-  set({ suggestedResults }, false, 'search.suggestAction');
+  set(
+    { suggestedResults, showSuggestions: true },
+    false,
+    'search.suggestAction'
+  );
 };

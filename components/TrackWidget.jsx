@@ -11,6 +11,7 @@ export default function TrackWidget() {
   const setStartDate = useUIStore((state) => state.setStartDate);
   const setEndDate = useUIStore((state) => state.setEndDate);
   const createTracker = useUIStore((state) => state.createTracker);
+  const setShowSuggestions = useUIStore((state) => state.setShowSuggestions);
   const debouncedGetSuggestedResults = useCallback(
     debounce(getSuggestedResults, 500),
     []
@@ -26,20 +27,21 @@ export default function TrackWidget() {
       <Flex align="stretch" direction="column">
         <Flex direction="row" justify="left" align="stretch"></Flex>
         <Flex direction="row" justify="space-around" w="75vw">
-          <Flex direction="column" align="stretch" flexShrink={2} mx={3} my={2}>
+          <Flex direction="column" align="stretch" w="50%" mx={3} my={2}>
             <Input
               placeholder="Search"
               size="md"
-              //mx={3}
-              //my={2}
               flexShrink={2}
               onChange={(e) => {
-                console.log('I was fired');
                 setSearchInput(e.target.value);
                 debouncedGetSuggestedResults(e.target.value);
               }}
               onFocus={(e) => {
                 e.target.select();
+                setShowSuggestions(true);
+              }}
+              onBlur={() => {
+                setShowSuggestions(false);
               }}
               value={searchInput}
             />
