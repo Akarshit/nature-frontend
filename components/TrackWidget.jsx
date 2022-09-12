@@ -8,6 +8,9 @@ export default function TrackWidget() {
   const searchInput = useUIStore((state) => state.searchInput);
   const setSearchInput = useUIStore((state) => state.setSearchInput);
   const getSuggestedResults = useUIStore((state) => state.getSuggestedResults);
+  const setStartDate = useUIStore((state) => state.setStartDate);
+  const setEndDate = useUIStore((state) => state.setEndDate);
+  const createTracker = useUIStore((state) => state.createTracker);
   const debouncedGetSuggestedResults = useCallback(
     debounce(getSuggestedResults, 500),
     []
@@ -50,6 +53,9 @@ export default function TrackWidget() {
             mx={3}
             my={2}
             flexShrink={8}
+            onChange={(e) => {
+              setStartDate(e.target.value);
+            }}
           />
           <Input
             placeholder="Checkout"
@@ -58,6 +64,9 @@ export default function TrackWidget() {
             mx={3}
             my={2}
             flexShrink={8}
+            onChange={(e) => {
+              setEndDate(e.target.value);
+            }}
           />
           <Button
             colorScheme="teal"
@@ -66,6 +75,7 @@ export default function TrackWidget() {
             mx={3}
             my={2}
             flexShrink={8}
+            onClick={createTracker}
           >
             Track
           </Button>

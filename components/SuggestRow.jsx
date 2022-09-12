@@ -6,6 +6,7 @@ import {
   GiForestCamp,
   GiPalmTree,
 } from 'react-icons/gi';
+import { useUIStore } from 'brain/store.js';
 
 function SuggestRowIcon(props) {
   const { rectype } = props;
@@ -25,7 +26,10 @@ function SuggestRowIcon(props) {
 }
 
 export default function SuggestRow(props) {
-  const { name, isChild, type } = props;
+  const { name, isChild, type, entityId } = props;
+  console.log(entityId);
+  const setEntityId = useUIStore((state) => state.setEntityId);
+  const setSearchInput = useUIStore((state) => state.setSearchInput);
   return (
     <Flex
       align="stretch"
@@ -40,8 +44,17 @@ export default function SuggestRow(props) {
       letterSpacing="0.2px"
       pl={isChild ? 8 : 0}
       _hover={{
-        background: 'blackAlpha.50',
+        background: type == 'recarea' && !isChild ? 'white' : 'blackAlpha.100',
         //color: "teal.500",
+      }}
+      onClick={(e) => {
+        if (type == 'recarea' && !isChild) {
+          console.log('do nothing');
+        } else {
+          console.log('hello', entityId);
+          setEntityId(entityId);
+          setSearchInput(toTitleCase(name));
+        }
       }}
     >
       <SuggestRowIcon rectype={type} />
