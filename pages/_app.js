@@ -1,11 +1,14 @@
 import { ChakraProvider } from '@chakra-ui/react';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider>
-      <Component {...pageProps} />
+      <GoogleOAuthProvider clientId="261892431720-du7o47ko9oqmcuq10e2s6l305q5aa0lf.apps.googleusercontent.com">
+        <Component {...pageProps} />
+      </GoogleOAuthProvider>
     </ChakraProvider>
   );
 }
