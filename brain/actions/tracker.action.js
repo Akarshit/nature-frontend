@@ -1,6 +1,7 @@
 import * as api from '../api.js';
 
-export const createTracker = async (set, get, { tracker }) => {
+export const createTracker = async (set, get) => {
+  const tracker = get().trackerInput;
   const { success, failure } = await api.createTracker({
     tracker,
   });
