@@ -6,25 +6,15 @@ export default function Home() {
   const bears = useUIStore((state) => state.bears);
   const increasePopulation = useUIStore((state) => state.increasePopulation);
   return (
-    <Flex align="stretch" direction="column" h="100vh">
+    <Flex
+      align="stretch"
+      direction="column"
+      h="100vh"
+      bgImage="url('hero.jpg')"
+      bgSize={'cover'}
+    >
       <NavBar></NavBar>
-      <Flex
-        direction="column"
-        align="stretch"
-        bgImage="url('hero.gif')"
-        bgSize="cover"
-        grow={0.3}
-      ></Flex>
-      <Flex justify="space-around" align="center" direction="column">
-        <Heading
-          my="5vh"
-          color="black"
-          flexGrow={2}
-          fontFamily="Andale Mono"
-          grow="1"
-        >
-          RESERVE NATURE
-        </Heading>
+      <Flex justify="center" align="center" direction="column" h="80vh">
         <TrackWidget></TrackWidget>
       </Flex>
       <Flex align="stretch" justify="center" direction="row"></Flex>

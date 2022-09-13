@@ -24,9 +24,11 @@ export default function NavBar() {
         justify="space-between"
         px={5}
         py={4}
+        backgroundColor="white"
       >
-        <Flex></Flex>
-        {/* <Button onClick={() => toggleEntryModal('login')}>Login</Button> */}
+        <Heading size="xl" color="black" fontFamily="Andale Mono">
+          Reserve Nature
+        </Heading>
         <Entry></Entry>
       </Flex>
     </>

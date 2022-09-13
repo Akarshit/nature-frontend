@@ -1,9 +1,10 @@
 import axios from 'axios';
 import TokenService from '#services/token';
+import { server } from 'config';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:3030/v1',
-  timeout: 1000,
+  baseURL: server,
+  timeout: 2000,
 });
 
 instance.interceptors.request.use(
@@ -64,11 +65,11 @@ export const oAuthLogin = async ({ credential }) => {
 };
 
 export const registerContact = async ({ contact }) => {
-  const resp = await instance.post(`/phone/register`, contact);
+  const resp = await instance.post(`/contact/register`, contact);
   return resp.data;
 };
 
-export const verifyContact = async ({ phone, code }) => {
-  const resp = await instance.post(`/phone/verify`, { phone, code });
+export const verifyContact = async ({ contact, code }) => {
+  const resp = await instance.post(`/contact/verify`, { ...contact, code });
   return resp.data;
 };
