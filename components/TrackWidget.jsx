@@ -1,4 +1,13 @@
-import { Flex, Button, Input } from '@chakra-ui/react';
+import { Flex, Button, Input, Icon, Select } from '@chakra-ui/react';
+import {
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+} from '@chakra-ui/react';
+import { MdPeople, MdArrowDropDown } from 'react-icons/md';
+
 import { useUIStore } from '#store';
 import { debounce } from 'lodash';
 import { useCallback } from 'react';
@@ -12,6 +21,9 @@ export default function TrackWidget() {
   const setEndDate = useUIStore((state) => state.setEndDate);
   const createTracker = useUIStore((state) => state.createTracker);
   const setShowSuggestions = useUIStore((state) => state.setShowSuggestions);
+  const setType = useUIStore((state) => state.setType);
+  const groupSize = useUIStore((state) => state.trackerInput.groupSize);
+  const setGroupSize = useUIStore((state) => state.setGroupSize);
   const debouncedGetSuggestedResults = useCallback(
     debounce(getSuggestedResults, 500),
     []
@@ -26,7 +38,40 @@ export default function TrackWidget() {
       backgroundColor="white"
     >
       <Flex align="stretch" direction="column">
-        <Flex direction="row" justify="left" align="stretch"></Flex>
+        <Flex direction="row" justify="left" align="stretch" maxH="50%" ml={5}>
+          <Flex direction="row" m={2} justify="space-around" align="center">
+            <Icon as={MdPeople} color="green.500" boxSize={7} mr={1} />
+            <NumberInput
+              size="sm"
+              maxW={16}
+              defaultValue={1}
+              min={1}
+              onChange={setGroupSize}
+              value={groupSize}
+              max={50}
+            >
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
+          </Flex>
+          <Flex p={2} maxW="30vh">
+            <Select
+              icon={<MdArrowDropDown />}
+              placeholder="Select Type"
+              size="xs"
+              onChange={(e) => {
+                setType(e.target.value);
+              }}
+            >
+              <option value="Tent">Tent</option>
+              <option value="RV">RV</option>
+            </Select>
+          </Flex>
+        </Flex>
+
         <Flex direction="row" justify="space-around" w="75vw">
           <Flex direction="column" align="stretch" w="50%" mx={3} my={2}>
             <Input
@@ -45,6 +90,8 @@ export default function TrackWidget() {
                 setShowSuggestions(false);
               }}
               value={searchInput}
+              textColor="blackAlpha.900"
+              fontFamily="Roboto, Arial, sans-serif"
             />
             <Suggest />
           </Flex>
@@ -59,6 +106,8 @@ export default function TrackWidget() {
             onChange={(e) => {
               setStartDate(e.target.value);
             }}
+            textColor="blackAlpha.900"
+            fontFamily="Roboto, Arial, sans-serif"
           />
           <Input
             placeholder="Checkout"
@@ -70,21 +119,24 @@ export default function TrackWidget() {
             onChange={(e) => {
               setEndDate(e.target.value);
             }}
+            textColor="blackAlpha.900"
+            fontFamily="Roboto, Arial, sans-serif"
           />
           <Button
-            colorScheme="teal"
+            colorScheme="green"
             size="md"
             width="75%"
             mx={3}
             my={2}
             flexShrink={8}
             onClick={createTracker}
+            textColor="white"
+            fontFamily="Roboto, Arial, sans-serif"
           >
             Track
           </Button>
         </Flex>
       </Flex>
-      <Flex></Flex>
     </Flex>
   );
 }

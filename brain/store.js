@@ -24,6 +24,8 @@ const useUIStore = create(
       entityId: '',
       startDate: new Date().toJSON().slice(0, 10),
       endDate: new Date().toJSON().slice(0, 10),
+      type: 'Tent',
+      groupSize: 1,
     },
     setSearchInput: (val) => {
       set({ searchInput: val }, false, 'setSearchInput');
@@ -53,6 +55,25 @@ const useUIStore = create(
         }),
         false,
         'setEndDate'
+      );
+    },
+    setType: (val) => {
+      set(
+        produce((state) => {
+          state.trackerInput.type = val;
+        }),
+        false,
+        'setType'
+      );
+    },
+
+    setGroupSize: (val) => {
+      set(
+        produce((state) => {
+          state.trackerInput.groupSize = val;
+        }),
+        false,
+        'setGroupSize'
       );
     },
 
