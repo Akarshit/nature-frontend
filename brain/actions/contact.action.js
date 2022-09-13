@@ -5,7 +5,7 @@ export const register = async (set, get) => {
   const contact = get().contactInput;
   const { success, failure } = await api.registerContact({
     contact: {
-      phone: `+${contact.phone}`,
+      contactId: `+${contact.contactId}`,
       type: contact.type,
     },
   });
@@ -19,10 +19,18 @@ export const register = async (set, get) => {
 
 export const verify = async (set, get) => {
   const contact = get().contactInput;
+  const otp = get().otp;
   const { success, failure } = await api.verifyContact({
-    contact,
+    contact: {
+      contactId: `+${contact.contactId}`,
+      type: contact.type,
+    },
+    code: otp,
   });
   if (failure) {
   }
   console.log(success);
+  const { user } = success;
+  loginUser({ set, user, calle: 'verify' });
+  set({ contactModal: false }, false, { type: 'verify' });
 };

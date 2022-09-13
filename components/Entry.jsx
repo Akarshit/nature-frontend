@@ -11,6 +11,7 @@ import {
   Flex,
 } from '@chakra-ui/react';
 import { FcGoogle } from 'react-icons/fc';
+import { UserTab } from 'components';
 import { GoogleLogin } from '@react-oauth/google';
 
 import { useUIStore } from '#store';
@@ -28,7 +29,7 @@ export default function Entry() {
     console.log('failed:', err);
   };
   if (user) {
-    return <Button onClick={logoutUser}>Logout {user.name}</Button>;
+    return <UserTab />;
   } else {
     return <GoogleLogin onSuccess={onSuccess} onError={onError} />;
   }

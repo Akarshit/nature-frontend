@@ -17,6 +17,7 @@
     "#store": "./brain/store.js"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^2.0.9",
     "@chakra-ui/react": "^2.3.2",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
@@ -31,6 +32,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
+    "react-otp-input": "^2.4.0",
     "react-phone-input-2": "^2.15.1",
     "zustand": "^4.1.1"
   },

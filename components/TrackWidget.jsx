@@ -23,6 +23,7 @@ export default function TrackWidget() {
       boxShadow="0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)"
       borderRadius="8px"
       p={2}
+      backgroundColor="white"
     >
       <Flex align="stretch" direction="column">
         <Flex direction="row" justify="left" align="stretch"></Flex>

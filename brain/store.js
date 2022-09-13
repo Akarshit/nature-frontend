@@ -72,18 +72,18 @@ const useUIStore = create(
         }
       ),
     contactInput: {
-      phone: '',
+      contactId: '',
       type: 'phone',
     },
-    setContactInput: (phone) => {
+    setContactIdInput: (contactId) => {
       set(
         produce((state) => {
-          state.contactInput.phone = phone;
+          state.contactInput.contactId = contactId;
         }),
         false,
         {
           type: 'setContactInput',
-          phone,
+          contactId,
         }
       );
     },
@@ -92,6 +92,20 @@ const useUIStore = create(
     createTracker: () => tracker.createTracker(set, get),
     oAuthLogin: (credential) => auth.oAuthLogin(set, get, { credential }),
     logoutUser: () => auth.logoutUser(set, get),
+    otp: '',
+    setOTP: (val) => {
+      set({ otp: val }, false, 'setOTP');
+    },
+    showUserDropdown: false,
+    toggleUserDropdown: (showUserDropdown) =>
+      set(
+        { showUserDropdown: showUserDropdown ?? !get().showUserDropdown },
+        false,
+        {
+          type: 'toggleUserDropdown',
+          showUserDropdown,
+        }
+      ),
   }))
 );
 

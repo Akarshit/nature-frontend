@@ -64,11 +64,11 @@ export const oAuthLogin = async ({ credential }) => {
 };
 
 export const registerContact = async ({ contact }) => {
-  const resp = await instance.post(`/phone/register`, contact);
+  const resp = await instance.post(`/contact/register`, contact);
   return resp.data;
 };
 
-export const verifyContact = async ({ phone, code }) => {
-  const resp = await instance.post(`/phone/verify`, { phone, code });
+export const verifyContact = async ({ contact, code }) => {
+  const resp = await instance.post(`/contact/verify`, { ...contact, code });
   return resp.data;
 };
