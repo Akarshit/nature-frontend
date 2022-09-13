@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "#actions/*": ["./brain/actions/*.action"],
+      "#services/*": ["./services/*.service"]
+    }
   }
 }

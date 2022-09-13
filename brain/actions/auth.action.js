@@ -1,5 +1,5 @@
 import * as api from '../api.js';
-import TokenService from 'services/token.service';
+import TokenService from '#services/token';
 
 export const oAuthLogin = async (set, get, { credential }) => {
   const { success, failure } = await api.oAuthLogin({
@@ -10,8 +10,12 @@ export const oAuthLogin = async (set, get, { credential }) => {
   console.log(success);
   const { token, user } = success;
   TokenService.setToken(token);
+  loginUser({ set, user, calle: 'oAuthLogin' });
+};
+
+export const loginUser = ({ set, user, calle }) => {
   TokenService.setUser(user);
-  set({ user }, false, 'oAuthLogin');
+  set({ user }, false, { type: calle, user });
 };
 
 export const logoutUser = async (set, get) => {
