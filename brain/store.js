@@ -1,97 +1,119 @@
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
-import * as search from 'brain/actions/search.action.js';
-import * as tracker from 'brain/actions/tracker.action.js';
-import * as auth from 'brain/actions/auth.action.js';
+import * as search from '#actions/search';
+import * as tracker from '#actions/tracker';
+import * as auth from '#actions/auth';
+import * as contact from '#actions/contact';
 import produce from 'immer';
-import { persist } from 'zustand/middleware';
 
 const useUIStore = create(
-  devtools(
-    persist(
-      (set, get) => ({
-        user: null,
-        entryModal: false,
-        toggleEntryModal: (entryModal) =>
-          set({ entryModal: entryModal ?? !get().entryModal }, false, {
-            type: 'setEntryModal',
-            entryModal,
-          }),
-        searchInput: '',
-        trackerInput: {
-          entityId: '',
-          startDate: new Date().toJSON().slice(0, 10),
-          endDate: new Date().toJSON().slice(0, 10),
-          type: 'Tent',
-          groupSize: 1,
-        },
-        setSearchInput: (val) => {
-          set({ searchInput: val }, false, 'setSearchInput');
-        },
-        setEntityId: (val) => {
-          set(
-            produce((state) => {
-              state.trackerInput.entityId = val;
-            }),
-            false,
-            { type: 'setEntityId', val }
-          );
-        },
-        setStartDate: (val) => {
-          set(
-            produce((state) => {
-              state.trackerInput.startDate = val;
-            }),
-            false,
-            'setStartDate'
-          );
-        },
-        setEndDate: (val) => {
-          set(
-            produce((state) => {
-              state.trackerInput.endDate = val;
-            }),
-            false,
-            'setEndDate'
-          );
-        },
-        setType: (val) => {
-          set(
-            produce((state) => {
-              state.trackerInput.type = val;
-            }),
-            false,
-            'setType'
-          );
-        },
-
-        setGroupSize: (val) => {
-          set(
-            produce((state) => {
-              state.trackerInput.groupSize = val;
-            }),
-            false,
-            'setGroupSize'
-          );
-        },
-
-        suggestedResults: [],
-        getSuggestedResults: (query) =>
-          search.suggestAction(set, get, { query }),
-        showSuggestions: false,
-        setShowSuggestions: (val) => {
-          set({ showSuggestions: val }, false, 'setShowSuggestions');
-        },
-        createTracker: () => tracker.createTracker(set, get),
-        oAuthLogin: (credential) => auth.oAuthLogin(set, get, { credential }),
-        logoutUser: () => auth.logoutUser(set, get),
+  devtools((set, get) => ({
+    user: null,
+    setUser: (user) => {
+      set({ user }, false, { type: 'setUser', user });
+    },
+    entryModal: false,
+    toggleEntryModal: (entryModal) =>
+      set({ entryModal: entryModal ?? !get().entryModal }, false, {
+        type: 'setEntryModal',
+        entryModal,
       }),
-      {
-        name: 'ui-storage', // name of item in the storage (must be unique)
-        partialize: (state) => ({}),
-      }
-    )
-  )
+    searchInput: '',
+    trackerInput: {
+      entityId: '',
+      startDate: new Date().toJSON().slice(0, 10),
+      endDate: new Date().toJSON().slice(0, 10),
+      type: 'Tent',
+      groupSize: 1,
+    },
+    setSearchInput: (val) => {
+      set({ searchInput: val }, false, 'setSearchInput');
+    },
+    setEntityId: (val) => {
+      set(
+        produce((state) => {
+          state.trackerInput.entityId = val;
+        }),
+        false,
+        { type: 'setEntityId', val }
+      );
+    },
+    setStartDate: (val) => {
+      set(
+        produce((state) => {
+          state.trackerInput.startDate = val;
+        }),
+        false,
+        'setStartDate'
+      );
+    },
+    setEndDate: (val) => {
+      set(
+        produce((state) => {
+          state.trackerInput.endDate = val;
+        }),
+        false,
+        'setEndDate'
+      );
+    },
+    setType: (val) => {
+      set(
+        produce((state) => {
+          state.trackerInput.type = val;
+        }),
+        false,
+        'setType'
+      );
+    },
+
+    setGroupSize: (val) => {
+      set(
+        produce((state) => {
+          state.trackerInput.groupSize = val;
+        }),
+        false,
+        'setGroupSize'
+      );
+    },
+
+    suggestedResults: [],
+    getSuggestedResults: (query) => search.suggestAction(set, get, { query }),
+    showSuggestions: false,
+    setShowSuggestions: (val) => {
+      set({ showSuggestions: val }, false, 'setShowSuggestions');
+    },
+    contactModal: false,
+    toggleContactModal: (showContactModal) =>
+      set(
+        { showContactModal: showContactModal ?? !get().showContactModal },
+        false,
+        {
+          type: 'toggleEntryModal',
+          showContactModal,
+        }
+      ),
+    contactInput: {
+      phone: '',
+      type: 'phone',
+    },
+    setContactInput: (phone) => {
+      set(
+        produce((state) => {
+          state.contactInput.phone = phone;
+        }),
+        false,
+        {
+          type: 'setContactInput',
+          phone,
+        }
+      );
+    },
+    registerContact: () => contact.register(set, get),
+    verifyContact: () => contact.verify(set, get),
+    createTracker: () => tracker.createTracker(set, get),
+    oAuthLogin: (credential) => auth.oAuthLogin(set, get, { credential }),
+    logoutUser: () => auth.logoutUser(set, get),
+  }))
 );
 
 module.exports = {

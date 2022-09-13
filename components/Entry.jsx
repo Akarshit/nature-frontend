@@ -13,7 +13,7 @@ import {
 import { FcGoogle } from 'react-icons/fc';
 import { GoogleLogin } from '@react-oauth/google';
 
-import { useUIStore } from 'brain/store.js';
+import { useUIStore } from '#store';
 
 export default function Entry() {
   const oAuthLogin = useUIStore((state) => state.oAuthLogin);

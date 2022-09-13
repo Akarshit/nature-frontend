@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import SuggestArea from './SuggestArea';
-import { useUIStore } from 'brain/store.js';
+import { useUIStore } from '#store';
 
 export default function Suggest() {
   const suggestions = useUIStore((state) => state.suggestedResults);

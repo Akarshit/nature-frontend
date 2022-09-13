@@ -1,11 +1,23 @@
 import { Box, Flex, Heading, Image, Button, Text } from '@chakra-ui/react';
-import { useUIStore } from 'brain/store.js';
-import { Entry } from 'components';
+import { useUIStore } from '#store';
+import { Entry, Contact } from 'components';
+import { useEffect } from 'react';
+import TokenService from '#services/token';
 
 export default function NavBar() {
   const toggleEntryModal = useUIStore((state) => state.toggleEntryModal);
+  const setUser = useUIStore((state) => state.setUser);
+  // Getting user from localStorage
+  useEffect(() => {
+    const user = TokenService.getUser();
+    if (user) {
+      setUser(user);
+    }
+  }, []);
+
   return (
     <>
+      <Contact />
       <Flex
         align="stretch"
         direction="row"

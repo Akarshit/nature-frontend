@@ -1,5 +1,5 @@
 import axios from 'axios';
-import TokenService from 'services/token.service';
+import TokenService from '#services/token';
 
 const instance = axios.create({
   baseURL: 'http://localhost:3030/v1',
@@ -60,5 +60,15 @@ export const oAuthLogin = async ({ credential }) => {
   const resp = await instance.post(`/auth/google`, {
     token: credential,
   });
+  return resp.data;
+};
+
+export const registerContact = async ({ contact }) => {
+  const resp = await instance.post(`/phone/register`, contact);
+  return resp.data;
+};
+
+export const verifyContact = async ({ phone, code }) => {
+  const resp = await instance.post(`/phone/verify`, { phone, code });
   return resp.data;
 };
