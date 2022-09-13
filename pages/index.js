@@ -1,10 +1,9 @@
+import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { NavBar, TrackWidget } from 'components';
+
 import { useUIStore } from '#store';
-import { Box, Flex, Heading, Image, Button, Text } from '@chakra-ui/react';
-import { TrackWidget, NavBar } from 'components';
 
 export default function Home() {
-  const bears = useUIStore((state) => state.bears);
-  const increasePopulation = useUIStore((state) => state.increasePopulation);
   return (
     <Flex
       align="stretch"

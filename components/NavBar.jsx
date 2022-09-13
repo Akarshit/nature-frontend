@@ -1,8 +1,9 @@
-import { Box, Flex, Heading, Image, Button, Text } from '@chakra-ui/react';
-import { useUIStore } from '#store';
-import { Entry, Contact } from 'components';
-import { useEffect } from 'react';
+import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { Contact, Entry, Toast } from 'components';
+
 import TokenService from '#services/token';
+import { useEffect } from 'react';
+import { useUIStore } from '#store';
 
 export default function NavBar() {
   const toggleEntryModal = useUIStore((state) => state.toggleEntryModal);
@@ -17,6 +18,7 @@ export default function NavBar() {
 
   return (
     <>
+      <Toast />
       <Contact />
       <Flex
         align="stretch"

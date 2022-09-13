@@ -1,9 +1,10 @@
-import create from 'zustand';
-import { devtools } from 'zustand/middleware';
-import * as search from '#actions/search';
-import * as tracker from '#actions/tracker';
 import * as auth from '#actions/auth';
 import * as contact from '#actions/contact';
+import * as search from '#actions/search';
+import * as tracker from '#actions/tracker';
+
+import create from 'zustand';
+import { devtools } from 'zustand/middleware';
 import produce from 'immer';
 
 const useUIStore = create(
@@ -61,7 +62,8 @@ const useUIStore = create(
     setShowSuggestions: (val) => {
       set({ showSuggestions: val }, false, 'setShowSuggestions');
     },
-    contactModal: false,
+    showContactModal: false,
+    contactModalError: '',
     toggleContactModal: (showContactModal) =>
       set(
         { showContactModal: showContactModal ?? !get().showContactModal },
@@ -106,6 +108,8 @@ const useUIStore = create(
           showUserDropdown,
         }
       ),
+    toast: {},
+    setToast: (toast) => set({ toast }, false, { type: 'setToast', toast }),
   }))
 );
 

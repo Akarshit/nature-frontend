@@ -1,4 +1,5 @@
 import * as api from '../api.js';
+
 import { loginUser } from '#actions/auth';
 
 export const register = async (set, get) => {
@@ -14,7 +15,7 @@ export const register = async (set, get) => {
   console.log(success);
   const { user } = success;
   loginUser({ set, user, calle: 'register' });
-  set({ contactModal: 'verify' }, false, { type: 'register' });
+  set({ showContactModal: 'verify' }, false, { type: 'register' });
 };
 
 export const verify = async (set, get) => {
@@ -27,10 +28,21 @@ export const verify = async (set, get) => {
     },
     code: otp,
   });
+  console.log(success, failure);
   if (failure) {
+    set({ contactModalError: 'Invalid OTP' }, false, { type: 'verify' });
+    set({ otp: '' }, false, { type: 'verify' });
+    return;
   }
-  console.log(success);
   const { user } = success;
   loginUser({ set, user, calle: 'verify' });
-  set({ contactModal: false }, false, { type: 'verify' });
+  set({ showContactModal: false }, false, { type: 'verify' });
+  get().setToast({
+    title: 'Contact addeds',
+    // description: "We've created your account for you.",
+    status: 'success',
+    duration: 2000,
+    isClosable: true,
+    position: 'top',
+  });
 };
