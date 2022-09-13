@@ -13,7 +13,8 @@
   },
   "imports": {
     "#actions/*": "./brain/actions/*.action.js",
-    "#services/*": "./ervices/*.service.js"
+    "#services/*": "./services/*.service.js",
+    "#store": "./brain/store.js"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.3.2",

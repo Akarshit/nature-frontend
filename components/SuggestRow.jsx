@@ -6,7 +6,7 @@ import {
   GiForestCamp,
   GiPalmTree,
 } from 'react-icons/gi';
-import { useUIStore } from 'brain/store.js';
+import { useUIStore } from '#store';
 
 function SuggestRowIcon(props) {
   const { rectype } = props;

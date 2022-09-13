@@ -14,7 +14,7 @@ import {
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
-import { useUIStore } from 'brain/store.js';
+import { useUIStore } from '#store';
 
 function RegisterPhone() {
   const phone = useUIStore((state) => state.contactInput.phone);

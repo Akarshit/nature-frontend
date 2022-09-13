@@ -1,5 +1,5 @@
 import { Flex, Button, Input } from '@chakra-ui/react';
-import { useUIStore } from 'brain/store.js';
+import { useUIStore } from '#store';
 import { debounce } from 'lodash';
 import { useCallback } from 'react';
 import Suggest from './Suggest';

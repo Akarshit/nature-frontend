@@ -1,4 +1,4 @@
-import { useUIStore } from 'brain/store.js';
+import { useUIStore } from '#store';
 import { Box, Flex, Heading, Image, Button, Text } from '@chakra-ui/react';
 import { TrackWidget, NavBar } from 'components';
 

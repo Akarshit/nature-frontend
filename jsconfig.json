@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "#actions/*": ["./brain/actions/*.action"],
-      "#services/*": ["./services/*.service"]
+      "#services/*": ["./services/*.service"],
+      "#store": ["./brain/store.js"]
     }
   }
 }

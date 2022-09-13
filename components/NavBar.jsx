@@ -1,5 +1,5 @@
 import { Box, Flex, Heading, Image, Button, Text } from '@chakra-ui/react';
-import { useUIStore } from 'brain/store.js';
+import { useUIStore } from '#store';
 import { Entry, Contact } from 'components';
 import { useEffect } from 'react';
 import TokenService from '#services/token';
