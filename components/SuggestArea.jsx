@@ -7,7 +7,7 @@ export default function SuggestArea(props) {
       children,
       name: parentName,
       entity_type: parentType,
-      entity_id: parentEntityId,
+      entity_id: parentOutingId,
     },
   } = props;
   return (
@@ -15,7 +15,7 @@ export default function SuggestArea(props) {
       <SuggestRow
         name={parentName}
         type={parentType}
-        entityId={parentEntityId}
+        outingId={parentOutingId}
       />
       {!!children && (
         <Flex align="stretch" direction="column">
@@ -26,7 +26,7 @@ export default function SuggestArea(props) {
                 name={child.name}
                 isChild
                 type={child.entity_type}
-                entityId={child.entity_id}
+                outingId={child.entity_id}
               />
             );
           })}

@@ -8,11 +8,10 @@ export const createTracker = async (set, get) => {
   if (failure) {
   }
   console.log(success);
-  const { data } = success;
-  set({ cartTracker: data }, false, 'createTracker');
+  set({ cartTracker: success.tracker }, false, 'createTracker');
 };
 
-export const activateTracker = async ({ trackerId, subId }, set, get) => {
+export const activateTracker = async (set, get, { trackerId, subId }) => {
   const { success, failure } = await api.updateTracker({
     trackerId,
     subId,
@@ -20,5 +19,13 @@ export const activateTracker = async ({ trackerId, subId }, set, get) => {
   if (failure) {
   }
   console.log(success);
-  const { data } = success;
+  const { tracker } = success;
+  get().setToast({
+    title: 'Tracker added',
+    // description: "We've created your account for you.",
+    status: 'success',
+    duration: 2000,
+    isClosable: true,
+    position: 'top',
+  });
 };

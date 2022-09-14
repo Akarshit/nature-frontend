@@ -2,6 +2,7 @@ import * as auth from '#actions/auth';
 import * as checkout from '#actions/checkout';
 import * as contact from '#actions/contact';
 import * as search from '#actions/search';
+import * as sub from '#actions/sub';
 import * as tracker from '#actions/tracker';
 
 import create from 'zustand';
@@ -12,6 +13,7 @@ const useUIStore = create(
   devtools((set, get) => ({
     user: null,
     planId: '63211c1238b1cbed6f8b2c4c',
+    paymentResult: {},
     setUser: (user) => {
       set({ user }, false, { type: 'setUser', user });
     },
@@ -23,7 +25,7 @@ const useUIStore = create(
       }),
     searchInput: '',
     trackerInput: {
-      entityId: '',
+      outingId: '',
       startDate: new Date().toJSON().slice(0, 10),
       endDate: new Date().toJSON().slice(0, 10),
       type: 'Tent',
@@ -32,13 +34,13 @@ const useUIStore = create(
     setSearchInput: (val) => {
       set({ searchInput: val }, false, 'setSearchInput');
     },
-    setEntityId: (val) => {
+    setOutingId: (val) => {
       set(
         produce((state) => {
-          state.trackerInput.entityId = val;
+          state.trackerInput.outingId = val;
         }),
         false,
-        { type: 'setEntityId', val }
+        { type: 'setOutingId', val }
       );
     },
     setStartDate: (val) => {
@@ -138,6 +140,9 @@ const useUIStore = create(
     cardError: '',
     setCardError: (cardError) =>
       set({ cardError }, false, { type: 'setCardError', cardError }),
+    createSub: (sub) => sub.create(set, get, { sub }),
+    activateTracker: ({ trackerId, subId }) =>
+      tracker.activateTracker(set, get, { trackerId, subId }),
   }))
 );
 

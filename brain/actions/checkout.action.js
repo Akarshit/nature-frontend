@@ -5,7 +5,7 @@ import * as api from '../api.js';
 // which is due to buyer error (such as an expired card). It is up to the
 // developer to handle the error and provide the buyer the chance to fix
 // their mistakes.
-export const tokenize = async (paymentMethod) => {
+export const tokenize = async (set, get, paymentMethod) => {
   const tokenResult = await paymentMethod.tokenize();
   if (tokenResult.status === 'OK') {
     return tokenResult.token;
@@ -14,7 +14,7 @@ export const tokenize = async (paymentMethod) => {
     if (tokenResult.errors) {
       errorMessage += ` and errors: ${JSON.stringify(tokenResult.errors)}`;
     }
-    throw new Error(errorMessage);
+    get().setCardError(errorMessage);
   }
 };
 
@@ -22,26 +22,23 @@ export const handlePaymentMethodSubmission = async (set, get, { card }) => {
   // Step 1: Create the tracker
   await get().createTracker();
 
-  await get().createSub({
-    sub: {
-      status: 'inactive',
-      recurrance: 'once',
-    },
+  // Step 2: Process payment
+  const token = await tokenize(set, get, card);
+  const {
+    success: { payment },
+    failure,
+  } = await api.createPayment({
+    token,
+    planId: get().planId,
+    recurrance: 'once',
+    currency: 'USD',
   });
-
-  try {
-    // Step 2: Process payment
-    const token = await tokenize(card);
-    const paymentResult = await api.createPayment({ token });
-    set({ paymentResult }, false, 'handlePaymentMethodSubmission');
-  } catch (e) {
-    get().setCardError(e.message);
-  }
+  set({ paymentResult: payment }, false, 'handlePaymentMethodSubmission');
 
   // Step 3: activate traacker
   await get().activateTracker({
-    trackerId: get().createTracker._id,
-    subId: paymentResult.subId,
+    trackerId: get().cartTracker._id,
+    subId: payment.subId,
   });
   return;
 };

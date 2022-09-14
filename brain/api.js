@@ -4,7 +4,7 @@ import { server } from 'config';
 
 const instance = axios.create({
   baseURL: server,
-  timeout: 2000,
+  timeout: 5000,
 });
 
 instance.interceptors.request.use(
@@ -87,13 +87,23 @@ export const verifyContact = async ({ contact, code }) => {
   return resp.data;
 };
 
-export const createPayment = async ({ token }) => {
+export const createPayment = async ({
+  token,
+  planId,
+  recurrance,
+  currency,
+}) => {
   const locationId = 'L315D6EGPC8K1';
   const body = {
-    locationId,
-    sourceId: token,
+    payment: {
+      locationId,
+      sourceId: token,
+    },
+    planId,
+    recurrance,
+    currency,
   };
-  const resp = instance.post('/payments/create', body);
+  const resp = await instance.post('/payments/create', body);
   return resp.data;
 };
 

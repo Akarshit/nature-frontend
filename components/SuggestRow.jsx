@@ -1,11 +1,12 @@
 import { Flex, Icon } from '@chakra-ui/react';
-import toTitleCase from 'utils';
 import {
   GiCampingTent,
-  GiTicket,
   GiForestCamp,
   GiPalmTree,
+  GiTicket,
 } from 'react-icons/gi';
+
+import toTitleCase from 'utils';
 import { useUIStore } from '#store';
 
 function SuggestRowIcon(props) {
@@ -26,8 +27,8 @@ function SuggestRowIcon(props) {
 }
 
 export default function SuggestRow(props) {
-  const { name, isChild, type, entityId } = props;
-  const setEntityId = useUIStore((state) => state.setEntityId);
+  const { name, isChild, type, outingId } = props;
+  const setOutingId = useUIStore((state) => state.setOutingId);
   const setSearchInput = useUIStore((state) => state.setSearchInput);
   const setShowSuggestions = useUIStore((state) => state.setShowSuggestions);
   return (
@@ -50,7 +51,7 @@ export default function SuggestRow(props) {
       onMouseDown={(e) => {
         if (type == 'recarea' && !isChild) {
         } else {
-          setEntityId(entityId);
+          setOutingId(outingId);
           setSearchInput(toTitleCase(name));
           setShowSuggestions(false);
         }

@@ -63,7 +63,6 @@ export default function PaymentWidget() {
         background="white"
         zIndex={1}
         overflowY="auto"
-        maxH="30vh"
         position="absolute"
         boxShadow="0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)"
       >

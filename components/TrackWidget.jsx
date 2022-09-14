@@ -1,29 +1,41 @@
-import { Flex, Button, Input, Icon, Select } from '@chakra-ui/react';
+import { Button, Flex, Icon, Input, Select } from '@chakra-ui/react';
+import { MdArrowDropDown, MdPeople } from 'react-icons/md';
 import {
+  NumberDecrementStepper,
+  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
 } from '@chakra-ui/react';
-import { MdPeople, MdArrowDropDown } from 'react-icons/md';
 
-import { useUIStore } from '#store';
+import Suggest from './Suggest';
 import { debounce } from 'lodash';
 import { useCallback } from 'react';
-import Suggest from './Suggest';
+import { useRouter } from 'next/router';
+import { useUIStore } from '#store';
 
 export default function TrackWidget() {
+  const router = useRouter();
   const searchInput = useUIStore((state) => state.searchInput);
   const setSearchInput = useUIStore((state) => state.setSearchInput);
   const getSuggestedResults = useUIStore((state) => state.getSuggestedResults);
   const setStartDate = useUIStore((state) => state.setStartDate);
   const setEndDate = useUIStore((state) => state.setEndDate);
-  const createTracker = useUIStore((state) => state.createTracker);
   const setShowSuggestions = useUIStore((state) => state.setShowSuggestions);
   const setType = useUIStore((state) => state.setType);
   const groupSize = useUIStore((state) => state.trackerInput.groupSize);
   const setGroupSize = useUIStore((state) => state.setGroupSize);
+  const toggleContactModal = useUIStore((state) => state.toggleContactModal);
+  const user = useUIStore((state) => state.user);
+
+  const handleClick = () => {
+    if (user?.contacts?.[0]?.verified) {
+      router.push('/checkout');
+    } else {
+      toggleContactModal('register');
+    }
+  };
+
   const debouncedGetSuggestedResults = useCallback(
     debounce(getSuggestedResults, 500),
     []
@@ -129,7 +141,7 @@ export default function TrackWidget() {
             mx={3}
             my={2}
             flexShrink={8}
-            onClick={createTracker}
+            onClick={handleClick}
             textColor="white"
             fontFamily="Roboto, Arial, sans-serif"
           >
