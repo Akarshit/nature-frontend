@@ -1,4 +1,5 @@
 import * as auth from '#actions/auth';
+import * as checkout from '#actions/checkout';
 import * as contact from '#actions/contact';
 import * as search from '#actions/search';
 import * as tracker from '#actions/tracker';
@@ -10,6 +11,7 @@ import produce from 'immer';
 const useUIStore = create(
   devtools((set, get) => ({
     user: null,
+    planId: '63211c1238b1cbed6f8b2c4c',
     setUser: (user) => {
       set({ user }, false, { type: 'setUser', user });
     },
@@ -131,6 +133,11 @@ const useUIStore = create(
       ),
     toast: {},
     setToast: (toast) => set({ toast }, false, { type: 'setToast', toast }),
+    initializePayment: (card) =>
+      checkout.handlePaymentMethodSubmission(set, get, { card }),
+    cardError: '',
+    setCardError: (cardError) =>
+      set({ cardError }, false, { type: 'setCardError', cardError }),
   }))
 );
 

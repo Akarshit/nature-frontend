@@ -8,5 +8,17 @@ export const createTracker = async (set, get) => {
   if (failure) {
   }
   console.log(success);
-  const { data: outings } = success;
+  const { data } = success;
+  set({ cartTracker: data }, false, 'createTracker');
+};
+
+export const activateTracker = async ({ trackerId, subId }, set, get) => {
+  const { success, failure } = await api.updateTracker({
+    trackerId,
+    subId,
+  });
+  if (failure) {
+  }
+  console.log(success);
+  const { data } = success;
 };

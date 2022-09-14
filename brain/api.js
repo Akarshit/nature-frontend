@@ -28,7 +28,11 @@ instance.interceptors.response.use(
     const originalConfig = err.config;
     if (originalConfig.url !== '/auth/signin' && err.response) {
       // Access Token was expired
-      if (err.response.status === 401 && !originalConfig._retry) {
+      if (
+        err.response.status === 401 &&
+        !originalConfig._retry &&
+        err.response?.data?.message !== 'No auth token'
+      ) {
         originalConfig._retry = true;
         try {
           const rs = await instance.post('/auth/refresh-token', {
@@ -57,6 +61,15 @@ export const createTracker = async ({ tracker }) => {
   return resp.data;
 };
 
+export const updateTracker = async ({ tracker, trackerId, subId }) => {
+  const resp = await instance.put(`/trackers/activate`, {
+    tracker,
+    trackerId,
+    subId,
+  });
+  return resp.data;
+};
+
 export const oAuthLogin = async ({ credential }) => {
   const resp = await instance.post(`/auth/google`, {
     token: credential,
@@ -71,5 +84,20 @@ export const registerContact = async ({ contact }) => {
 
 export const verifyContact = async ({ contact, code }) => {
   const resp = await instance.post(`/contact/verify`, { ...contact, code });
+  return resp.data;
+};
+
+export const createPayment = async ({ token }) => {
+  const locationId = 'L315D6EGPC8K1';
+  const body = {
+    locationId,
+    sourceId: token,
+  };
+  const resp = instance.post('/payments/create', body);
+  return resp.data;
+};
+
+export const createSub = async ({ sub }) => {
+  const resp = await instance.post(`/subscriptions`, { sub });
   return resp.data;
 };
