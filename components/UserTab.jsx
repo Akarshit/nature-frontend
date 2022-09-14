@@ -1,19 +1,20 @@
 import {
+  Avatar,
   Box,
+  Button,
+  Divider,
   Flex,
   Heading,
-  Image,
-  Button,
-  Text,
-  Avatar,
   Icon,
-  Divider,
+  Image,
+  Text,
 } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-import { useUIStore } from '#store';
-import { Entry, Contact } from 'components';
-import { useEffect } from 'react';
+import { Contact, Entry } from 'components';
+
 import TokenService from '#services/token';
+import { useEffect } from 'react';
+import { useUIStore } from '#store';
 
 function UserDropdownRow({ name, action }) {
   return (

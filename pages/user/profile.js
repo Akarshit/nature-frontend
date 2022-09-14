@@ -1,6 +1,7 @@
-import { useUIStore } from '#store';
 import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { NavBar, TrackWidget } from 'components';
+
+import { useUIStore } from '#store';
 
 export default function Home() {
   return (
