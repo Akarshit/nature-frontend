@@ -7,3 +7,4 @@ export { default as UserTab } from './UserTab.jsx';
 export { default as Toast } from './Toast.jsx';
 export { default as GLogin } from './GLogin.jsx';
 export { default as GLoginDone } from './GLoginDone.jsx';
+export { default as TrackerCheckoutDetails } from './TrackerCheckoutDetails.jsx';

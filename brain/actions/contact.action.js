@@ -38,7 +38,7 @@ export const verify = async (set, get) => {
   loginUser({ set, user, calle: 'verify' });
   set({ showContactModal: false }, false, { type: 'verify' });
   get().setToast({
-    title: 'Contact addeds',
+    title: 'Contact added',
     // description: "We've created your account for you.",
     status: 'success',
     duration: 2000,

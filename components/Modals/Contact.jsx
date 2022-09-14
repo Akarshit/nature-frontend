@@ -45,13 +45,13 @@ function RegisterPhone({ setEnableSubmit }) {
         >
           Step 1
         </Heading>
-        <CheckCircleIcon color="green.500" position={'absolute'} right={-5} />
+        {!!user && (
+          <CheckCircleIcon color="green.500" position={'absolute'} right={-5} />
+        )}
       </Flex>
-      {user && (
-        <Flex mb={4} align="center">
-          {user ? <GLoginDone /> : <GLogin />}
-        </Flex>
-      )}
+      <Flex mb={4} align="center">
+        {!!user ? <GLoginDone /> : <GLogin />}
+      </Flex>
       <Flex direction={'column'} align="center">
         <Heading
           color={'gray.600'}

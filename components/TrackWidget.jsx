@@ -1,12 +1,12 @@
-import { Flex, Button, Input, Icon, Select } from '@chakra-ui/react';
+import { Button, Flex, Icon, Input, Select } from '@chakra-ui/react';
 import {
+  NumberDecrementStepper,
+  NumberIncrementStepper,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
 } from '@chakra-ui/react';
-import { MdPeople, MdArrowDropDown } from 'react-icons/md';
+import { MdArrowDropDown, MdPeople } from 'react-icons/md';
 
 import { useUIStore } from '#store';
 import { debounce } from 'lodash';
@@ -24,6 +24,17 @@ export default function TrackWidget() {
   const setType = useUIStore((state) => state.setType);
   const groupSize = useUIStore((state) => state.trackerInput.groupSize);
   const setGroupSize = useUIStore((state) => state.setGroupSize);
+  const toggleContactModal = useUIStore((state) => state.toggleContactModal);
+  const user = useUIStore((state) => state.user);
+
+  const handleClick = () => {
+    if (user?.contacts?.[0]?.verified) {
+      createTracker();
+    } else {
+      toggleContactModal('register');
+    }
+  };
+
   const debouncedGetSuggestedResults = useCallback(
     debounce(getSuggestedResults, 500),
     []
@@ -129,7 +140,7 @@ export default function TrackWidget() {
             mx={3}
             my={2}
             flexShrink={8}
-            onClick={createTracker}
+            onClick={handleClick}
             textColor="white"
             fontFamily="Roboto, Arial, sans-serif"
           >

@@ -9,4 +9,12 @@ export const createTracker = async (set, get) => {
   }
   console.log(success);
   const { data: outings } = success;
+  get().setToast({
+    title: 'Tracker Created',
+    // description: "We've created your account for you.",
+    status: 'success',
+    duration: 2000,
+    isClosable: true,
+    position: 'top',
+  });
 };
