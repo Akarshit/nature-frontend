@@ -24,4 +24,5 @@ The `pages/api` directory is mapped to `/api/*`. Files in this directory are tre
 2. `cd reservnature`
 3. `git pull`
 4. `yarn`
-5. `pm2 restart nature && pm2 logs`
+5. `yarn build`
+6. `pm2 start "yarn start" --attach --name nature-frontend`

@@ -1,0 +1,16 @@
+export const ENTITY_TYPES = [
+  // 'Boat',
+  // 'Car',
+  // 'Caravan/Camper Van',
+  // 'Fifth Wheel',
+  // 'Horse',
+  // 'Large Tent Over 9X12`',
+  // 'Pickup Camper',
+  // 'Pop up',
+  'RV',
+  // 'RV/Motorhome',
+  // 'Small Tent',
+  'Tent',
+  // 'Trailer',
+  // 'Vehicle',
+];

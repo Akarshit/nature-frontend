@@ -55,27 +55,24 @@ export default function PaymentWidget() {
   }, []);
 
   return (
-    <Flex w="100%" position="relative">
+    <Flex w="100%">
       <Flex
         w="100%"
         align="stretch"
         direction="column"
-        background="white"
-        zIndex={1}
-        overflowY="auto"
-        position="absolute"
+        background="blackAlpha.50"
         boxShadow="0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)"
       >
-        <form id="payment-form">
-          <div id="card-container" ref={cardBox}></div>
-          <button
-            id="card-button"
-            type="button"
-            onClick={() => initializePayment(card)}
-          >
-            Pay $1.00
-          </button>
-        </form>
+        {/* <form id="payment-form"> */}
+        <div id="card-container" ref={cardBox}></div>
+        <button
+          id="card-button"
+          type="button"
+          onClick={() => initializePayment(card)}
+        >
+          Pay $1.00
+        </button>
+        {/* </form> */}
         <div id="payment-status-container"></div>
       </Flex>
     </Flex>

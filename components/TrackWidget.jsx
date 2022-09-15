@@ -8,6 +8,7 @@ import {
   NumberInputStepper,
 } from '@chakra-ui/react';
 
+import { ENTITY_TYPES } from 'brain/constants';
 import Suggest from './Suggest';
 import { debounce } from 'lodash';
 import { useCallback } from 'react';
@@ -22,7 +23,7 @@ export default function TrackWidget() {
   const setStartDate = useUIStore((state) => state.setStartDate);
   const setEndDate = useUIStore((state) => state.setEndDate);
   const setShowSuggestions = useUIStore((state) => state.setShowSuggestions);
-  const setType = useUIStore((state) => state.setType);
+  const setEquipmentType = useUIStore((state) => state.setEquipmentType);
   const groupSize = useUIStore((state) => state.trackerInput.groupSize);
   const setGroupSize = useUIStore((state) => state.setGroupSize);
   const toggleContactModal = useUIStore((state) => state.toggleContactModal);
@@ -75,11 +76,14 @@ export default function TrackWidget() {
               placeholder="Select Type"
               size="xs"
               onChange={(e) => {
-                setType(e.target.value);
+                setEquipmentType(e.target.value);
               }}
             >
-              <option value="Tent">Tent</option>
-              <option value="RV">RV</option>
+              {ENTITY_TYPES.map((entity) => (
+                <option key={entity} value={entity}>
+                  {entity}
+                </option>
+              ))}
             </Select>
           </Flex>
         </Flex>

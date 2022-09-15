@@ -31,6 +31,14 @@ instance.interceptors.response.use(
       if (
         err.response.status === 401 &&
         !originalConfig._retry &&
+        err.response?.data?.message === 'Incorrect email or refreshToken'
+      ) {
+        // We should log out the user
+        TokenService.removeToken();
+        TokenService.removeUser();
+      } else if (
+        err.response.status === 401 &&
+        !originalConfig._retry &&
         err.response?.data?.message !== 'No auth token'
       ) {
         originalConfig._retry = true;

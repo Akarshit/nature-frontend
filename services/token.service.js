@@ -24,7 +24,7 @@ class TokenService {
   getUser() {
     return JSON.parse(localStorage.getItem('user'));
   }
-  removeUser(user) {
+  removeUser() {
     localStorage.removeItem('user');
   }
   removeToken() {

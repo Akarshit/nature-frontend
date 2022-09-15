@@ -28,7 +28,7 @@ const useUIStore = create(
       outingId: '',
       startDate: new Date().toJSON().slice(0, 10),
       endDate: new Date().toJSON().slice(0, 10),
-      type: 'Tent',
+      equipmentType: 'Tent',
       groupSize: 1,
     },
     setSearchInput: (val) => {
@@ -61,13 +61,13 @@ const useUIStore = create(
         'setEndDate'
       );
     },
-    setType: (val) => {
+    setEquipmentType: (val) => {
       set(
         produce((state) => {
-          state.trackerInput.type = val;
+          state.trackerInput.equipmentType = val;
         }),
         false,
-        'setType'
+        'setEquipmentType'
       );
     },
 
