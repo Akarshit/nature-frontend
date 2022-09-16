@@ -7,16 +7,22 @@ import {
   NumberInputField,
   NumberInputStepper,
 } from '@chakra-ui/react';
+import { useCallback, useState } from 'react';
 
+import { DateRange } from 'components';
 import { ENTITY_TYPES } from 'brain/constants';
 import Suggest from './Suggest';
 import { debounce } from 'lodash';
-import { useCallback } from 'react';
+import shallow from 'zustand/shallow';
 import { useRouter } from 'next/router';
 import { useUIStore } from '#store';
 
 export default function TrackWidget() {
   const router = useRouter();
+  const { groupSize, equipmentType, startDate, endDate } = useUIStore(
+    (state) => state.trackerInput,
+    shallow
+  );
   const searchInput = useUIStore((state) => state.searchInput);
   const setSearchInput = useUIStore((state) => state.setSearchInput);
   const getSuggestedResults = useUIStore((state) => state.getSuggestedResults);
@@ -24,7 +30,6 @@ export default function TrackWidget() {
   const setEndDate = useUIStore((state) => state.setEndDate);
   const setShowSuggestions = useUIStore((state) => state.setShowSuggestions);
   const setEquipmentType = useUIStore((state) => state.setEquipmentType);
-  const groupSize = useUIStore((state) => state.trackerInput.groupSize);
   const setGroupSize = useUIStore((state) => state.setGroupSize);
   const toggleContactModal = useUIStore((state) => state.toggleContactModal);
   const user = useUIStore((state) => state.user);
@@ -75,6 +80,7 @@ export default function TrackWidget() {
               icon={<MdArrowDropDown />}
               placeholder="Select Type"
               size="xs"
+              value={equipmentType}
               onChange={(e) => {
                 setEquipmentType(e.target.value);
               }}
@@ -111,8 +117,9 @@ export default function TrackWidget() {
             />
             <Suggest />
           </Flex>
+          <DateRange />
 
-          <Input
+          {/* <Input
             placeholder="Checkin"
             size="md"
             type="date"
@@ -137,7 +144,7 @@ export default function TrackWidget() {
             }}
             textColor="blackAlpha.900"
             fontFamily="Roboto, Arial, sans-serif"
-          />
+          /> */}
           <Button
             colorScheme="green"
             size="md"

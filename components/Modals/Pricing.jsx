@@ -17,6 +17,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
   Text,
   useToast,
 } from '@chakra-ui/react';
@@ -30,83 +31,12 @@ import PhoneInput from 'react-phone-input-2';
 import { useState } from 'react';
 import { useUIStore } from '#store';
 
-function RegisterPhone({ setEnableSubmit }) {
-  const contactId = useUIStore((state) => state.contactInput.contactId);
-  const setContactIdInput = useUIStore((state) => state.setContactIdInput);
-  const user = useUIStore((state) => state.user);
-  const checkValidity = (inputNumber) => {
-    setContactIdInput(inputNumber);
-    setEnableSubmit(isValidPhoneNumber(`+${inputNumber}`));
-  };
-  return (
-    <Flex my={6} direction="column" align={'center'}>
-      <Flex position="relative">
-        <Heading
-          color={'gray.600'}
-          fontFamily="sans-serif"
-          fontWeight={500}
-          mb={5}
-          size="lg"
-        >
-          Step 1
-        </Heading>
-        {!!user && (
-          <CheckCircleIcon color="green.500" position={'absolute'} right={-5} />
-        )}
-      </Flex>
-      <Flex mb={4} align="center">
-        {!!user ? <GLoginDone /> : <GLogin />}
-      </Flex>
-      <Flex direction={'column'} align="center">
-        <Heading
-          color={'gray.600'}
-          fontFamily="sans-serif"
-          fontWeight={500}
-          mb={5}
-          size="lg"
-        >
-          Step 2
-        </Heading>
-
-        <Flex align={'center'}>
-          <Text mr={4} fontWeight="bold">
-            Phone:
-          </Text>
-          <PhoneInput
-            country={'us'}
-            onlyCountries={['us', 'ca']}
-            placeholder="Enter phone number"
-            value={contactId}
-            onChange={checkValidity}
-            countryCodeEditable={false}
-            buttonStyle={{
-              paddingLeft: 5,
-              paddingRight: 5,
-            }}
-            inputStyle={{
-              paddingTop: 20,
-              paddingBottom: 20,
-              paddingLeft: 54,
-              fontSize: '1.1em',
-            }}
-          />
-        </Flex>
-      </Flex>
-    </Flex>
-  );
-}
-
 function ShowPricing() {
-  //const toast = useToast();
   //const contactId = useUIStore((state) => state.contactInput.contactId);
-  //const otp = useUIStore((state) => state.otp);
-  //const setOTP = useUIStore((state) => state.setOTP);
-  //const registerContact = useUIStore((state) => state.registerContact);
-  //const contactModalError = useUIStore((state) => state.contactModalError);
   return (
     <Flex
       direction="row"
-      align={'center'}
+      align={'stretch'}
       fontFamily="Roboto, Arial, sans-serif"
     >
       <Flex
@@ -121,7 +51,13 @@ function ShowPricing() {
         <Heading size="lg" align="center" p={1} mb={2}>
           Pay As You Go
         </Heading>
-        <Text fontSize="2em" justifyContent="center" p={5} display="flex">
+        <Text
+          fontSize="2em"
+          justifyContent="center"
+          p={5}
+          display="flex"
+          alignItems={'baseline'}
+        >
           $<Text fontSize="2em">10</Text>
         </Text>
         <List spacing={3} p={3}>
@@ -142,7 +78,7 @@ function ShowPricing() {
             );
           })}
         </List>
-        <Flex justify="center">
+        <Flex justify="center" flexGrow={1} alignItems="flex-end">
           <Button
             color="dimgray"
             bgColor="white"
@@ -151,6 +87,7 @@ function ShowPricing() {
             align="center"
             //onClick={handleClick}
             variant="outline"
+            mb={16}
           >
             Select
           </Button>
@@ -164,16 +101,27 @@ function ShowPricing() {
         bgColor="green"
         color="white"
         borderRadius={10}
+        position="relative"
       >
+        <div class="ribbon">
+          <span>Save 33%</span>
+        </div>
         <Heading size="lg" align="center" p={1} mb={2}>
           Subscribe
         </Heading>
         <Flex justify="space-around">
-          <Text fontSize="2em" justifyContent="center" p={5} display="flex">
-            $<Text fontSize="2em">15</Text>/mth
-          </Text>
-          <Text fontSize="2em" justifyContent="center" p={5} display="flex">
-            $<Text fontSize="2em">120</Text>/yr
+          <Text
+            fontSize="2em"
+            justifyContent="center"
+            p={5}
+            display="flex"
+            alignItems={'baseline'}
+          >
+            $
+            <Text fontSize="2em" mr={1}>
+              15
+            </Text>
+            /mth
           </Text>
         </Flex>
         <List spacing={3} p={3}>
@@ -194,28 +142,36 @@ function ShowPricing() {
             );
           })}
         </List>
-        <Flex justify="space-around">
+        <Stack
+          justify="space-around"
+          direction={'column'}
+          w="100%"
+          align={'center'}
+          spacing={4}
+          mt={20}
+          mb={10}
+        >
           <Button
             color="green"
             bgColor="white"
             size="md"
-            width="45%"
+            width="60%"
             //onClick={handleClick}
             variant="outline"
           >
-            Select Monthly
+            Select Monthly for $15
           </Button>
           <Button
-            color="darkgreen"
+            color="red"
             bgColor="white"
             size="md"
-            width="45%"
+            width="60%"
             //onClick={handleClick}
             variant="outline"
           >
-            Select Yearly
+            Select Yearly for $120
           </Button>
-        </Flex>
+        </Stack>
       </Flex>
     </Flex>
   );
@@ -224,45 +180,17 @@ function ShowPricing() {
 export default function Pricing() {
   const showPricingModal = useUIStore((state) => state.showPricingModal);
   const togglePricingModal = useUIStore((state) => state.togglePricingModal);
-  //const registerContact = useUIStore((state) => state.registerContact);
-  //const verifyContact = useUIStore((state) => state.verifyContact);
-  //const [enableSubmit, setEnableSubmit] = useState(false);
-  // const handleClick = () => {
-  //   if (showContactModal === 'register') {
-  //     registerContact();
-  //   } else if (showContactModal === 'verify') {
-  //     verifyContact();
-  //   }
-  // };
-  // const actionText = showContactModal === 'register' ? 'Send OTP' : 'Submit';
-  const heading = 'Pricing Plan';
+
   return (
-    <Modal isOpen={true} onClose={() => togglePricingModal(false)} size="4xl">
+    <Modal isOpen={false} onClose={() => togglePricingModal(false)} size="4xl">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{heading}</ModalHeader>
+        <ModalHeader>Select A Plan</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <ShowPricing />
         </ModalBody>
-        <ModalFooter>
-          <Button
-            colorScheme="red"
-            variant="ghost"
-            mr={3}
-            onClick={() => togglePricingModal(false)}
-          >
-            Close
-          </Button>
-          {/* <Button
-            colorScheme="teal"
-            mr={3}
-            //onClick={handleClick}
-            //disabled={!enableSubmit}
-          >
-            {actionText}
-          </Button> */}
-        </ModalFooter>
+        <ModalFooter></ModalFooter>
       </ModalContent>
     </Modal>
   );

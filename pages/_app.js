@@ -1,3 +1,4 @@
+import 'react-daterange-picker/dist/css/react-calendar.css';
 import 'styles/globals.css';
 
 import { ChakraProvider } from '@chakra-ui/react';

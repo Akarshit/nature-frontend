@@ -43,18 +43,13 @@ function UserDropdown() {
       <Flex
         direction={'column'}
         position="absolute"
-        mt={4}
+        mt={2}
         minW="10em"
         right={0}
         backgroundColor="white"
         align={'center'}
         boxShadow="0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)"
       >
-        <UserDropdownRow
-          name="Add Contact"
-          action={() => toggleContactModal('register')}
-        />
-        <Divider w={'90%'} />
         <UserDropdownRow name="Profile" action={() => null} />
         <Divider w={'90%'} />
         <UserDropdownRow name="Logout" action={logoutUser} />

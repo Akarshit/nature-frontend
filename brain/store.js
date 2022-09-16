@@ -2,11 +2,11 @@ import * as auth from '#actions/auth';
 import * as checkout from '#actions/checkout';
 import * as contact from '#actions/contact';
 import * as search from '#actions/search';
-import * as sub from '#actions/sub';
 import * as tracker from '#actions/tracker';
 
 import create from 'zustand';
 import { devtools } from 'zustand/middleware';
+import moment from 'moment';
 import produce from 'immer';
 
 const useUIStore = create(
@@ -28,8 +28,8 @@ const useUIStore = create(
     searchInput: '',
     trackerInput: {
       outingId: '',
-      startDate: new Date().toJSON().slice(0, 10),
-      endDate: new Date().toJSON().slice(0, 10),
+      startDate: moment(),
+      endDate: moment(),
       equipmentType: 'Tent',
       groupSize: 1,
     },
