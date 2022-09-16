@@ -1,4 +1,5 @@
 export { default as Contact } from './Modals/Contact.jsx';
+export { default as Pricing } from './Modals/Pricing.jsx';
 
 export { default as TrackWidget } from './TrackWidget.jsx';
 export { default as NavBar } from './NavBar.jsx';
