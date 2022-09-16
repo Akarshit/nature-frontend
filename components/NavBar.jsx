@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
-import { Contact, Entry, Toast } from 'components';
+import { Contact, Entry, Pricing, Toast } from 'components';
 
 import TokenService from '#services/token';
 import { useEffect } from 'react';
@@ -20,6 +20,7 @@ export default function NavBar() {
     <>
       <Toast />
       <Contact />
+      <Pricing />
       <Flex
         align="stretch"
         direction="row"

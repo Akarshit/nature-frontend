@@ -118,6 +118,16 @@ const useUIStore = create(
         }
       );
     },
+    showPricingModal: false,
+    togglePricingModal: (showPricingModal) =>
+      set(
+        { showPricingModal: showPricingModal ?? !get().showPricingModal },
+        false,
+        {
+          type: 'toggleEntryModal',
+          showPricingModal,
+        }
+      ),
     registerContact: () => contact.register(set, get),
     verifyContact: () => contact.verify(set, get),
     createTracker: () => tracker.createTracker(set, get),
