@@ -12,7 +12,9 @@ import produce from 'immer';
 const useUIStore = create(
   devtools((set, get) => ({
     user: null,
-    planId: '63211c1238b1cbed6f8b2c4c',
+    planSlug: 'pay-as-you-go',
+    setPlanSlug: (slug) =>
+      set({ planSlug: slug }, false, { type: 'setPlanSlug', slug }),
     paymentResult: {},
     setUser: (user) => {
       set({ user }, false, { type: 'setUser', user });
@@ -34,6 +36,8 @@ const useUIStore = create(
     setSearchInput: (val) => {
       set({ searchInput: val }, false, 'setSearchInput');
     },
+    outing: {},
+    setOuting: (outing) => set({ outing }, false, 'setOuting'),
     setOutingId: (val) => {
       set(
         produce((state) => {
@@ -135,14 +139,27 @@ const useUIStore = create(
       ),
     toast: {},
     setToast: (toast) => set({ toast }, false, { type: 'setToast', toast }),
-    initializePayment: (card) =>
-      checkout.handlePaymentMethodSubmission(set, get, { card }),
+    initializePayment: () => checkout.handlePaymentMethodSubmission(set, get),
+    card: null,
+    setCard: (card) => set({ card }, false, { type: 'setCard', card }),
     cardError: '',
     setCardError: (cardError) =>
       set({ cardError }, false, { type: 'setCardError', cardError }),
     createSub: (sub) => sub.create(set, get, { sub }),
     activateTracker: ({ trackerId, subId }) =>
       tracker.activateTracker(set, get, { trackerId, subId }),
+    address: {
+      firstName: '',
+      lastName: '',
+      line1: '',
+      line2: '',
+      state: '',
+      country: 'USA',
+      city: '',
+      zipcode: '',
+    },
+    setAddress: (address) =>
+      set({ address }, false, { type: 'setAddress', address }),
   }))
 );
 

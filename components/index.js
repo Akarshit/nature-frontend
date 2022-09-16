@@ -9,3 +9,4 @@ export { default as GLogin } from './GLogin.jsx';
 export { default as GLoginDone } from './GLoginDone.jsx';
 export { default as PaymentWidget } from './PaymentWidget.jsx';
 export { default as TrackerCheckoutDetails } from './TrackerCheckoutDetails.jsx';
+export { default as Billing } from './Billing.jsx';

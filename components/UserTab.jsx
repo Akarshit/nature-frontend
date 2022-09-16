@@ -72,10 +72,7 @@ export default function UserTab() {
     <Flex
       direction={'column'}
       onClick={() => toggleUserDropdown()}
-      onBlur={() => {
-        console.log('Blurred');
-        toggleUserDropdown();
-      }}
+      onBlur={toggleUserDropdown}
     >
       <Flex
         align="stretch"

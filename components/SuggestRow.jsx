@@ -6,7 +6,7 @@ import {
   GiTicket,
 } from 'react-icons/gi';
 
-import toTitleCase from 'utils';
+import { toTitleCase } from 'utils';
 import { useUIStore } from '#store';
 
 function SuggestRowIcon(props) {
@@ -27,8 +27,9 @@ function SuggestRowIcon(props) {
 }
 
 export default function SuggestRow(props) {
-  const { name, isChild, type, outingId } = props;
+  const { name, isChild, type, outingId, outing } = props;
   const setOutingId = useUIStore((state) => state.setOutingId);
+  const setOuting = useUIStore((state) => state.setOuting);
   const setSearchInput = useUIStore((state) => state.setSearchInput);
   const setShowSuggestions = useUIStore((state) => state.setShowSuggestions);
   return (
@@ -46,12 +47,12 @@ export default function SuggestRow(props) {
       pl={isChild ? 8 : 0}
       _hover={{
         background: type == 'recarea' && !isChild ? 'white' : 'blackAlpha.100',
-        //color: "teal.500",
       }}
       onMouseDown={(e) => {
         if (type == 'recarea' && !isChild) {
         } else {
           setOutingId(outingId);
+          setOuting(outing);
           setSearchInput(toTitleCase(name));
           setShowSuggestions(false);
         }

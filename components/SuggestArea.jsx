@@ -2,14 +2,13 @@ import { Flex } from '@chakra-ui/react';
 import SuggestRow from './SuggestRow';
 
 export default function SuggestArea(props) {
+  const { suggestion } = props;
   const {
-    suggestion: {
-      children,
-      name: parentName,
-      entity_type: parentType,
-      entity_id: parentOutingId,
-    },
-  } = props;
+    children,
+    name: parentName,
+    entity_type: parentType,
+    entity_id: parentOutingId,
+  } = suggestion;
   return (
     <Flex direction="column" align="stretch" p={1.5}>
       <SuggestRow
@@ -27,6 +26,7 @@ export default function SuggestArea(props) {
                 isChild
                 type={child.entity_type}
                 outingId={child.entity_id}
+                outing={suggestion}
               />
             );
           })}

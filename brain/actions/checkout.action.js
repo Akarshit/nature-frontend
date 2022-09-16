@@ -18,7 +18,8 @@ export const tokenize = async (set, get, paymentMethod) => {
   }
 };
 
-export const handlePaymentMethodSubmission = async (set, get, { card }) => {
+export const handlePaymentMethodSubmission = async (set, get) => {
+  const card = get().card;
   // Step 1: Create the tracker
   await get().createTracker();
 
@@ -29,7 +30,7 @@ export const handlePaymentMethodSubmission = async (set, get, { card }) => {
     failure,
   } = await api.createPayment({
     token,
-    planId: get().planId,
+    planSlug: get().planSlug,
     recurrance: 'once',
     currency: 'USD',
   });

@@ -97,7 +97,7 @@ export const verifyContact = async ({ contact, code }) => {
 
 export const createPayment = async ({
   token,
-  planId,
+  planSlug,
   recurrance,
   currency,
 }) => {
@@ -107,7 +107,7 @@ export const createPayment = async ({
       locationId,
       sourceId: token,
     },
-    planId,
+    planSlug,
     recurrance,
     currency,
   };

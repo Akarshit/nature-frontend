@@ -1,15 +1,14 @@
+import { Button, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
-import { Flex } from '@chakra-ui/react';
-import SuggestArea from './SuggestArea';
 import { useUIStore } from '#store';
 
 export default function PaymentWidget() {
-  const initializePayment = useUIStore((state) => state.initializePayment);
   const appId = 'sandbox-sq0idb-JI8iCLc7yxh2rhwxyB5iuw';
+  const card = useUIStore((state) => state.card);
+  const setCard = useUIStore((state) => state.setCard);
+  const cardBox = useRef();
   const locationId = 'L315D6EGPC8K1';
-  const cardBox = useRef(null);
-  const [card, setCard] = useState(null);
 
   async function initializeCard(payments) {
     const cardEl = await payments.card();
@@ -55,25 +54,15 @@ export default function PaymentWidget() {
   }, []);
 
   return (
-    <Flex w="100%">
+    <Flex direction={'column'}>
+      <Text fontSize={'3xl'} fontWeight={400} my={6} fontFamily="sans-serif">
+        Enter Card Details:
+      </Text>
       <Flex
-        w="100%"
-        align="stretch"
         direction="column"
-        background="blackAlpha.50"
-        boxShadow="0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)"
+        // boxShadow="0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)"
       >
-        {/* <form id="payment-form"> */}
-        <div id="card-container" ref={cardBox}></div>
-        <button
-          id="card-button"
-          type="button"
-          onClick={() => initializePayment(card)}
-        >
-          Pay $1.00
-        </button>
-        {/* </form> */}
-        <div id="payment-status-container"></div>
+        <Flex id="card-container" ref={cardBox}></Flex>
       </Flex>
     </Flex>
   );
