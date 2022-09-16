@@ -65,7 +65,7 @@ export default function DateRange() {
           cursor={'pointer'}
           onClick={handleStartClick}
         >
-          {startDate.format('MMM Do YYYY')}
+          {startDate?.format('MMM Do YYYY')}
           <CalendarIcon />
         </Text>
         <Text
@@ -84,7 +84,7 @@ export default function DateRange() {
           cursor={'pointer'}
           onClick={handleEndClick}
         >
-          {endDate.format('MMM Do YYYY')}
+          {endDate?.format('MMM Do YYYY')}
           <CalendarIcon />
         </Text>
       </Flex>

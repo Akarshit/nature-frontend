@@ -28,8 +28,8 @@ const useUIStore = create(
     searchInput: '',
     trackerInput: {
       outingId: '',
-      startDate: moment(),
-      endDate: moment(),
+      startDate: null,
+      endDate: null,
       equipmentType: 'Tent',
       groupSize: 1,
     },
