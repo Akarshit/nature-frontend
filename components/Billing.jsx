@@ -52,8 +52,8 @@ export default function Billing() {
           /* and other goodies */
         }) => (
           <form onSubmit={handleSubmit}>
-            <Stack spacing={4}>
-              <Text fontSize={'3xl'} mb={6} fontFamily="sans-serif">
+            <Stack spacing={2}>
+              <Text fontSize={'2xl'} mb={3} mt={-3} fontFamily="sans-serif">
                 Enter Billing Details:
               </Text>
               <Stack direction={'row'} spacing={10}>
@@ -80,11 +80,8 @@ export default function Billing() {
                   <FormErrorMessage>{errors.lastName}</FormErrorMessage>
                 </FormControl>
               </Stack>
-              <Text fontSize={'xl'} fontWeight={400} mt={4}>
-                Billing Address:
-              </Text>
               <FormControl>
-                <FormLabel color="blackAlpha.700">Line 1:</FormLabel>
+                <FormLabel color="blackAlpha.700">Address Line 1:</FormLabel>
                 <Input
                   type="line1"
                   name="line1"
@@ -95,7 +92,7 @@ export default function Billing() {
                 <FormErrorMessage>{errors.line1}</FormErrorMessage>
               </FormControl>
               <FormControl>
-                <FormLabel color="blackAlpha.700">Line 2:</FormLabel>
+                <FormLabel color="blackAlpha.700">Address Line 2:</FormLabel>
                 <Input
                   type="line2"
                   name="line2"

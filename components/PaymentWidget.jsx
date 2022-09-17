@@ -55,11 +55,12 @@ export default function PaymentWidget() {
 
   return (
     <Flex direction={'column'}>
-      <Text fontSize={'3xl'} fontWeight={400} my={6} fontFamily="sans-serif">
+      <Text fontSize={'2xl'} fontWeight={400} my={3} fontFamily="sans-serif">
         Enter Card Details:
       </Text>
       <Flex
         direction="column"
+        mt={3}
         // boxShadow="0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)"
       >
         <Flex id="card-container" ref={cardBox}></Flex>
