@@ -12,7 +12,7 @@ import produce from 'immer';
 const useUIStore = create(
   devtools((set, get) => ({
     user: null,
-    planSlug: 'pay-as-you-go',
+    planSlug: null,
     setPlanSlug: (slug) =>
       set({ planSlug: slug }, false, { type: 'setPlanSlug', slug }),
     paymentResult: {},
@@ -119,6 +119,9 @@ const useUIStore = create(
       );
     },
     showPricingModal: false,
+    setShowPricingModal: (val) => {
+      set({ showPricingModal: val }, false, 'setShowPricingModal');
+    },
     togglePricingModal: (showPricingModal) =>
       set(
         { showPricingModal: showPricingModal ?? !get().showPricingModal },
