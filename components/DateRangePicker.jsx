@@ -1,3 +1,4 @@
+import { ArrowForwardIcon, CalendarIcon } from '@chakra-ui/icons';
 import { Button, Flex, Icon, Input, Select, Text } from '@chakra-ui/react';
 import { MdArrowDropDown, MdPeople } from 'react-icons/md';
 import {
@@ -9,8 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 
-import { CalendarIcon } from '@chakra-ui/icons';
-import DateRangePicker from 'react-daterange-picker';
+import { DateRange } from 'react-date-range';
 import { ENTITY_TYPES } from 'brain/constants';
 import Suggest from './Suggest';
 import { debounce } from 'lodash';
@@ -19,32 +19,32 @@ import shallow from 'zustand/shallow';
 import { useRouter } from 'next/router';
 import { useUIStore } from '#store';
 
-export default function DateRange() {
-  const { groupSize, equipmentType, startDate, endDate } = useUIStore(
+export default function DateRangePicker() {
+  const { startDate, endDate } = useUIStore(
     (state) => state.trackerInput,
     shallow
   );
   const { setStartDate, setEndDate } = useUIStore((state) => state, shallow);
   const [showCal, setShowCal] = useState(false);
-  const [dates, setDatesInternal] = useState({
-    start: startDate,
-    end: endDate,
-  });
   const setDates = (dates) => {
-    setDatesInternal(dates);
-    setStartDate(dates.start.utc().startOf('day'));
-    setEndDate(dates.end.utc().startOf('day'));
+    console.log(dates);
+    const sD = dates.selection.startDate;
+    const eD = dates.selection.endDate;
+    setStartDate(sD);
+    setEndDate(eD);
+    if (eD != sD) {
+      setShowCal(false);
+    }
   };
-  const onSelectStart = (val) => {
+  console.log(showCal);
+  const toggleCal = (val) => {
     console.log(val);
-    // Got the start date
-    setStartDate(val.utc().startOf('day'));
+    setShowCal(val);
   };
-  const handleStartClick = () => {
-    setShowCal(true);
-  };
-  const handleEndClick = () => {
-    setShowCal(false);
+  const dates = {
+    startDate,
+    endDate,
+    key: 'selection',
   };
   return (
     <Flex align={'flex-start'} direction="column">
@@ -57,35 +57,24 @@ export default function DateRange() {
           borderRadius={8}
           borderWidth={1}
           borderColor="blackAlpha.200"
-          w="150px"
+          w="350px"
           p={2}
           display="flex"
           justifyContent={'space-between'}
           alignItems="center"
           cursor={'pointer'}
-          onClick={handleStartClick}
+          onClick={() => toggleCal(true)}
         >
-          {startDate?.format('MMM Do YYYY')}
-          <CalendarIcon />
-        </Text>
-        <Text
-          mx={3}
-          my={2}
-          color="blackAlpha.900"
-          fontFamily="Roboto, Arial, sans-serif"
-          borderRadius={8}
-          borderWidth={1}
-          borderColor="blackAlpha.200"
-          w="150px"
-          p={2}
-          display="flex"
-          justifyContent={'space-between'}
-          alignItems="center"
-          cursor={'pointer'}
-          onClick={handleEndClick}
-        >
-          {endDate?.format('MMM Do YYYY')}
-          <CalendarIcon />
+          {startDate?.toDateString() ?? 'Checkin Date'}
+          <ArrowForwardIcon color="green.500" />
+          {endDate?.toDateString() ?? 'Checkout Date'}
+          <CalendarIcon
+            color={'green.500'}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleCal(!showCal);
+            }}
+          />
         </Text>
       </Flex>
       <Flex position={'relative'}>
@@ -95,11 +84,11 @@ export default function DateRange() {
           bgColor={'white'}
           left={4}
         >
-          <DateRangePicker
-            onSelect={setDates}
-            value={dates}
-            numberOfCalendars={1}
-            onSelectStart={onSelectStart}
+          <DateRange
+            ranges={[dates]}
+            onChange={setDates}
+            rangeColors={['burlywood']}
+            showDateDisplay={false}
           />
         </Flex>
       </Flex>

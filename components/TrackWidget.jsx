@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 
-import { DateRange } from 'components';
+import { DateRangePicker } from 'components';
 import { ENTITY_TYPES } from 'brain/constants';
 import Suggest from './Suggest';
 import { debounce } from 'lodash';
@@ -50,7 +50,7 @@ export default function TrackWidget() {
     <Flex
       align="stretch"
       direction="column"
-      boxShadow="0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)"
+      boxShadow="dark-lg"
       borderRadius="8px"
       p={2}
       backgroundColor="white"
@@ -97,7 +97,7 @@ export default function TrackWidget() {
         <Flex direction="row" justify="space-around" w="75vw">
           <Flex direction="column" align="stretch" w="50%" mx={3} my={2}>
             <Input
-              placeholder="Search"
+              placeholder="Search Campgrounds"
               size="md"
               flexShrink={2}
               onChange={(e) => {
@@ -117,34 +117,7 @@ export default function TrackWidget() {
             />
             <Suggest />
           </Flex>
-          <DateRange />
-
-          {/* <Input
-            placeholder="Checkin"
-            size="md"
-            type="date"
-            mx={3}
-            my={2}
-            flexShrink={8}
-            onChange={(e) => {
-              setStartDate(e.target.value);
-            }}
-            textColor="blackAlpha.900"
-            fontFamily="Roboto, Arial, sans-serif"
-          />
-          <Input
-            placeholder="Checkout"
-            size="md"
-            type="date"
-            mx={3}
-            my={2}
-            flexShrink={8}
-            onChange={(e) => {
-              setEndDate(e.target.value);
-            }}
-            textColor="blackAlpha.900"
-            fontFamily="Roboto, Arial, sans-serif"
-          /> */}
+          <DateRangePicker />
           <Button
             colorScheme="green"
             size="md"
