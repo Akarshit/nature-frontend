@@ -19,16 +19,25 @@ import {
 import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
 import { GLogin, GLoginDone } from 'components';
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
+import { useEffect, useState } from 'react';
 
 import OtpInput from 'react-otp-input';
 import PhoneInput from 'react-phone-input-2';
-import { useState } from 'react';
 import { useUIStore } from '#store';
 
 function RegisterPhone({ setEnableSubmit }) {
   const contactId = useUIStore((state) => state.contactInput.contactId);
   const setContactIdInput = useUIStore((state) => state.setContactIdInput);
+  const setShowPricingModal = useUIStore((state) => state.setShowPricingModal);
+  const toggleContactModal = useUIStore((state) => state.toggleContactModal);
   const user = useUIStore((state) => state.user);
+  useEffect(() => {
+    if (user?.contacts?.[0]?.verified === true) {
+      // We have the user's phone. Show pricing info
+      setShowPricingModal(true);
+      toggleContactModal(false);
+    }
+  }, [user]);
   const checkValidity = (inputNumber) => {
     setContactIdInput(inputNumber);
     setEnableSubmit(isValidPhoneNumber(`+${inputNumber}`));

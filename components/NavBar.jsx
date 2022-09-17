@@ -31,7 +31,7 @@ export default function NavBar() {
         pr={4}
       >
         <Heading
-          size="xl"
+          size={['md', 'xl']}
           color="black"
           fontFamily="Andale Mono"
           onClick={() => router.push('/')}
@@ -39,7 +39,12 @@ export default function NavBar() {
           display={'flex'}
           alignItems="center"
         >
-          <Image src="reserve.png" alt="Reserve Nature" boxSize="70px" mr={3} />
+          <Image
+            src="reserve.png"
+            alt="Reserve Nature"
+            boxSize={['80px', '70px']}
+            mr={3}
+          />
           Reserve Nature
         </Heading>
         <Entry />

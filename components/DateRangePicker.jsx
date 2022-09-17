@@ -16,7 +16,6 @@ import Suggest from './Suggest';
 import { debounce } from 'lodash';
 import moment from 'moment';
 import shallow from 'zustand/shallow';
-import { useRouter } from 'next/router';
 import { useUIStore } from '#store';
 
 export default function DateRangePicker() {
@@ -47,8 +46,8 @@ export default function DateRangePicker() {
     key: 'selection',
   };
   return (
-    <Flex align={'flex-start'} direction="column">
-      <Flex>
+    <Flex align={'flex-start'} direction="column" w={['100%', 'unset']}>
+      <Flex w={['100%', 'unset']}>
         <Text
           mx={3}
           my={2}
@@ -57,12 +56,13 @@ export default function DateRangePicker() {
           borderRadius={8}
           borderWidth={1}
           borderColor="blackAlpha.200"
-          w="350px"
+          w={['100%', '350px']}
           p={2}
           display="flex"
           justifyContent={'space-between'}
           alignItems="center"
           cursor={'pointer'}
+          outline={showCal ? '-webkit-focus-ring-color auto 1px' : 'none'}
           onClick={() => toggleCal(true)}
         >
           {startDate?.toDateString() ?? 'Checkin Date'}

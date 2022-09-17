@@ -19,22 +19,22 @@ import { useUIStore } from '#store';
 
 export default function TrackWidget() {
   const router = useRouter();
-  const { groupSize, equipmentType, startDate, endDate } = useUIStore(
+  const { groupSize, equipmentType } = useUIStore(
     (state) => state.trackerInput,
     shallow
   );
-  const searchInput = useUIStore((state) => state.searchInput);
-  const setSearchInput = useUIStore((state) => state.setSearchInput);
-  const getSuggestedResults = useUIStore((state) => state.getSuggestedResults);
-  const setStartDate = useUIStore((state) => state.setStartDate);
-  const setEndDate = useUIStore((state) => state.setEndDate);
-  const setShowSuggestions = useUIStore((state) => state.setShowSuggestions);
-  const setEquipmentType = useUIStore((state) => state.setEquipmentType);
-  const setGroupSize = useUIStore((state) => state.setGroupSize);
-  const toggleContactModal = useUIStore((state) => state.toggleContactModal);
-  const user = useUIStore((state) => state.user);
-  const planSlug = useUIStore((state) => state.planSlug);
-  const setShowPricingModal = useUIStore((state) => state.setShowPricingModal);
+  const {
+    searchInput,
+    setSearchInput,
+    getSuggestedResults,
+    setShowSuggestions,
+    setEquipmentType,
+    setGroupSize,
+    toggleContactModal,
+    user,
+    planSlug,
+    setShowPricingModal,
+  } = useUIStore((state) => state, shallow);
 
   const handleClick = () => {
     if (user?.contacts?.[0]?.verified) {
@@ -59,9 +59,10 @@ export default function TrackWidget() {
       boxShadow="dark-lg"
       borderRadius="8px"
       p={2}
+      w={['90%', 'unset']}
       backgroundColor="white"
     >
-      <Flex align="stretch" direction="column">
+      <Flex align={['center', 'stretch']} direction="column">
         <Flex direction="row" justify="left" align="stretch" maxH="50%" ml={5}>
           <Flex direction="row" m={2} justify="space-around" align="center">
             <Icon as={MdPeople} color="green.500" boxSize={7} mr={1} />
@@ -100,8 +101,19 @@ export default function TrackWidget() {
           </Flex>
         </Flex>
 
-        <Flex direction="row" justify="space-around" w="75vw">
-          <Flex direction="column" align="stretch" w="50%" mx={3} my={2}>
+        <Flex
+          direction="row"
+          justify="space-around"
+          w={['100%', '75vw']}
+          flexFlow={['wrap', 'nowrap']}
+        >
+          <Flex
+            direction="column"
+            align="stretch"
+            w={['100%', '50%']}
+            mx={3}
+            my={2}
+          >
             <Input
               placeholder="Search Campgrounds"
               size="md"
@@ -127,7 +139,7 @@ export default function TrackWidget() {
           <Button
             colorScheme="green"
             size="md"
-            width="75%"
+            width={['60%', '25%']}
             mx={3}
             my={2}
             flexShrink={8}

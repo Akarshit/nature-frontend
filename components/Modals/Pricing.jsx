@@ -21,29 +21,35 @@ import {
   Text,
   useToast,
 } from '@chakra-ui/react';
-import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
-import { GLogin, GLoginDone } from 'components';
 import { IoCheckmarkCircleSharp, IoCloseCircleSharp } from 'react-icons/io5';
-import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 
-import OtpInput from 'react-otp-input';
-import PhoneInput from 'react-phone-input-2';
-import { useState } from 'react';
+import shallow from 'zustand/shallow';
+import { useRouter } from 'next/router';
 import { useUIStore } from '#store';
 
 function ShowPricing() {
-  const setPlanSlug = useUIStore((state) => state.setPlanSlug);
+  const { setPlanSlug, setShowPricingModal } = useUIStore(
+    (state) => state,
+    shallow
+  );
+  const router = useRouter();
+  const handleClick = (slug) => {
+    setShowPricingModal(false);
+    setPlanSlug(slug);
+    router.push('/checkout');
+  };
   return (
     <Flex
-      direction="row"
+      direction={['column', 'row']}
       align={'stretch'}
       fontFamily="Roboto, Arial, sans-serif"
     >
       <Flex
         direction="column"
-        w="50%"
+        w={['100%', '50%']}
         p={2}
-        mx={5}
+        mx={[0, 5]}
+        my={[5, 0]}
         bgColor="dimgray"
         color="white"
         borderRadius={10}
@@ -85,9 +91,9 @@ function ShowPricing() {
             size="md"
             width="50%"
             align="center"
-            onClick={setPlanSlug('pay-as-you-go')}
+            onClick={() => handleClick('pay-as-you-go')}
             variant="outline"
-            mb={16}
+            mb={[4, 16]}
           >
             Select
           </Button>
@@ -95,9 +101,9 @@ function ShowPricing() {
       </Flex>
       <Flex
         direction="column"
-        w="50%"
+        w={['100%', '50%']}
         p={2}
-        mx={5}
+        mx={[0, 5]}
         bgColor="green"
         color="white"
         borderRadius={10}
@@ -148,15 +154,15 @@ function ShowPricing() {
           w="100%"
           align={'center'}
           spacing={4}
-          mt={20}
-          mb={10}
+          mt={[2, 20]}
+          mb={[2, 10]}
         >
           <Button
             color="green"
             bgColor="white"
             size="md"
             width="60%"
-            onClick={setPlanSlug('monthly')}
+            onClick={() => handleClick('monthly')}
             variant="outline"
           >
             Select Monthly for $15
@@ -166,7 +172,7 @@ function ShowPricing() {
             bgColor="white"
             size="md"
             width="60%"
-            onClick={setPlanSlug('yearly')}
+            onClick={() => handleClick('yearly')}
             variant="outline"
           >
             Select Yearly for $120
