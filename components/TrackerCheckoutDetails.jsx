@@ -109,10 +109,9 @@ export default function TrackerCheckoutDetails() {
         <Image
           objectFit="cover"
           src={outing?.preview_image_url ?? 'camp.jpg'}
-          p={4}
-          m={1}
-          h="28%"
+          m={2}
           alignSelf={'stretch'}
+          maxH="180px"
         />
         <Flex direction="column" p={2} alignSelf="left">
           {trackerDetails.map((obj) => (
@@ -124,7 +123,7 @@ export default function TrackerCheckoutDetails() {
             </Flex>
           ))}
         </Flex>
-        <Flex w="100%" justify={'center'} mt={2}>
+        <Flex w="100%" justify={'center'} my={2}>
           <Button
             id="card-button"
             type="button"

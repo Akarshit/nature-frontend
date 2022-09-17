@@ -26,7 +26,6 @@ export default function DateRangePicker() {
   const { setStartDate, setEndDate } = useUIStore((state) => state, shallow);
   const [showCal, setShowCal] = useState(false);
   const setDates = (dates) => {
-    console.log(dates);
     const sD = dates.selection.startDate;
     const eD = dates.selection.endDate;
     setStartDate(sD);
@@ -35,14 +34,13 @@ export default function DateRangePicker() {
       setShowCal(false);
     }
   };
-  console.log(showCal);
   const toggleCal = (val) => {
     console.log(val);
     setShowCal(val);
   };
   const dates = {
-    startDate,
-    endDate,
+    startDate: startDate ?? new Date(),
+    endDate: endDate ?? new Date(),
     key: 'selection',
   };
   return (

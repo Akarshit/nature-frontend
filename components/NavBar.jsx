@@ -19,7 +19,7 @@ export default function NavBar() {
   }, []);
 
   return (
-    <>
+    <div>
       <Toast />
       <Contact />
       <Pricing />
@@ -49,6 +49,6 @@ export default function NavBar() {
         </Heading>
         <Entry />
       </Flex>
-    </>
+    </div>
   );
 }
