@@ -12,3 +12,4 @@ export { default as PaymentWidget } from './PaymentWidget.jsx';
 export { default as TrackerCheckoutDetails } from './TrackerCheckoutDetails.jsx';
 export { default as Billing } from './Billing.jsx';
 export { default as DateRangePicker } from './DateRangePicker.jsx';
+export { default as Loading } from './Loading.jsx';

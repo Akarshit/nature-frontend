@@ -95,12 +95,7 @@ export const verifyContact = async ({ contact, code }) => {
   return resp.data;
 };
 
-export const createPayment = async ({
-  token,
-  planSlug,
-  recurrance,
-  currency,
-}) => {
+export const createPayment = async ({ token, planSlug, address }) => {
   const locationId = 'L315D6EGPC8K1';
   const body = {
     payment: {
@@ -108,10 +103,23 @@ export const createPayment = async ({
       sourceId: token,
     },
     planSlug,
-    recurrance,
-    currency,
+    address,
   };
   const resp = await instance.post('/payments/create', body);
+  return resp.data;
+};
+
+export const subscibe = async ({ token, planSlug, address }) => {
+  const locationId = 'L315D6EGPC8K1';
+  const body = {
+    payment: {
+      locationId,
+      sourceId: token,
+    },
+    planSlug,
+    address,
+  };
+  const resp = await instance.post('/payments/subscribe', body);
   return resp.data;
 };
 

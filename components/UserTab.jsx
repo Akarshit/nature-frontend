@@ -14,6 +14,7 @@ import { Contact, Entry } from 'components';
 
 import TokenService from '#services/token';
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { useUIStore } from '#store';
 
 function UserDropdownRow({ name, action }) {
@@ -36,7 +37,7 @@ function UserDropdownRow({ name, action }) {
 function UserDropdown() {
   const logoutUser = useUIStore((state) => state.logoutUser);
   const showUserDropdown = useUIStore((state) => state.showUserDropdown);
-  const toggleContactModal = useUIStore((state) => state.toggleContactModal);
+  const router = useRouter();
   if (!showUserDropdown) return null;
   return (
     <Flex position="relative">
@@ -50,7 +51,10 @@ function UserDropdown() {
         align={'center'}
         boxShadow="0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)"
       >
-        <UserDropdownRow name="Profile" action={() => null} />
+        <UserDropdownRow
+          name="Profile"
+          action={() => router.push('/profile/trackers')}
+        />
         <Divider w={'90%'} />
         <UserDropdownRow name="Logout" action={logoutUser} />
       </Flex>

@@ -23,7 +23,10 @@ export default function DateRangePicker() {
     (state) => state.trackerInput,
     shallow
   );
-  const { setStartDate, setEndDate } = useUIStore((state) => state, shallow);
+  const { setStartDate, setEndDate, trackErrors } = useUIStore(
+    (state) => state,
+    shallow
+  );
   const [showCal, setShowCal] = useState(false);
   const setDates = (dates) => {
     const sD = dates.selection.startDate;
@@ -35,7 +38,6 @@ export default function DateRangePicker() {
     }
   };
   const toggleCal = (val) => {
-    console.log(val);
     setShowCal(val);
   };
   const dates = {
@@ -43,6 +45,13 @@ export default function DateRangePicker() {
     endDate: endDate ?? new Date(),
     key: 'selection',
   };
+  let outline = 'none';
+  if (trackErrors.date) {
+    outline = 'red auto 1px';
+  }
+  if (showCal) {
+    outline = '-webkit-focus-ring-color auto 1px';
+  }
   return (
     <Flex align={'flex-start'} direction="column" w={['100%', 'unset']}>
       <Flex w={['100%', 'unset']}>
@@ -60,7 +69,7 @@ export default function DateRangePicker() {
           justifyContent={'space-between'}
           alignItems="center"
           cursor={'pointer'}
-          outline={showCal ? '-webkit-focus-ring-color auto 1px' : 'none'}
+          outline={outline}
           onClick={() => toggleCal(true)}
         >
           {startDate?.toDateString() ?? 'Checkin Date'}

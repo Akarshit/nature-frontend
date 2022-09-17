@@ -1,17 +1,34 @@
 import { Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
 
+import { Loading } from 'components';
 import { convertDateToUTC } from 'utils';
+import shallow from 'zustand/shallow';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useUIStore } from '#store';
 
 export default function TrackerCheckoutDetails() {
-  const groupSize = useUIStore((state) => state.trackerInput.groupSize);
-  const equipmentType = useUIStore((state) => state.trackerInput.equipmentType);
-  const campground = useUIStore((state) => state.searchInput);
-  const checkin = useUIStore((state) => state.trackerInput.startDate);
-  const checkout = useUIStore((state) => state.trackerInput.endDate);
-  const initializePayment = useUIStore((state) => state.initializePayment);
-  const outing = useUIStore((state) => state.outing);
-  console.log('outing', outing);
+  const router = useRouter();
+  const {
+    groupSize,
+    equipmentType,
+    startDate: checkin,
+    endDate: checkout,
+  } = useUIStore((state) => state.trackerInput, shallow);
+  const {
+    campground,
+    initializePayment,
+    outing,
+    planSlug,
+    setPlanSlug,
+    setLoading,
+  } = useUIStore((state) => state, shallow);
+  const handlePayment = async () => {
+    setLoading(true);
+    await initializePayment();
+    router.push('/profile/trackers');
+    setLoading(false);
+  };
   const trackerDetails = [
     {
       label: 'Campground',
@@ -45,16 +62,17 @@ export default function TrackerCheckoutDetails() {
           bgColor="white"
           color="black"
           borderRadius={10}
-          outline="5px solid green"
+          outline={planSlug === 'pay-as-you-go' ? '5px solid green' : ''}
           boxShadow="dark-lg"
+          onClick={() => setPlanSlug('pay-as-you-go')}
         >
           <Heading size="lg" align="center" py={1} mb={2}>
             Pay As You Go
           </Heading>
           <Text
-            fontSize="2em"
+            fontSize={['1.2em', '2em']}
             justifyContent="center"
-            p={5}
+            p={[0, 5]}
             display="flex"
             alignItems={'baseline'}
           >
@@ -71,6 +89,8 @@ export default function TrackerCheckoutDetails() {
           borderRadius={10}
           position="relative"
           boxShadow="dark-lg"
+          outline={planSlug === 'basic-monthly' ? '5px solid green' : ''}
+          onClick={() => setPlanSlug('basic-monthly')}
         >
           <div class="ribbon">
             <span>Save 33%</span>
@@ -80,9 +100,9 @@ export default function TrackerCheckoutDetails() {
           </Heading>
           <Flex justify="space-around">
             <Text
-              fontSize="2em"
+              fontSize={['1.2em', '2em']}
               justifyContent="center"
-              p={5}
+              p={[0, 5]}
               display="flex"
               alignItems={'baseline'}
             >
@@ -98,9 +118,10 @@ export default function TrackerCheckoutDetails() {
       <Flex
         direction={'column'}
         p={4}
-        m={3}
+        mx={[0, 3]}
+        my={3}
         bgColor="white"
-        w="70%"
+        w={['90%', '70%']}
         borderRadius={10}
         fontFamily="Roboto, Arial, sans-serif"
         boxShadow={'dark-lg'}
@@ -128,10 +149,10 @@ export default function TrackerCheckoutDetails() {
             id="card-button"
             type="button"
             colorScheme={'green'}
-            onClick={initializePayment}
+            onClick={handlePayment}
             w="50%"
           >
-            Pay $1.00
+            Pay/Subscribe
           </Button>
         </Flex>
       </Flex>

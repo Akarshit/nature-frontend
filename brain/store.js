@@ -13,9 +13,15 @@ const useUIStore = create(
   devtools((set, get) => ({
     user: null,
     planSlug: null,
+    trackErrors: {},
+    setTrackErrors: (trackErrors) =>
+      set({ trackErrors }, false, { type: 'setTrackErrors', trackErrors }),
     setPlanSlug: (slug) =>
       set({ planSlug: slug }, false, { type: 'setPlanSlug', slug }),
-    paymentResult: {},
+    loading: null,
+    setLoading: (loading) =>
+      set({ loading }, false, { type: 'setLoading', loading }),
+    sub: {},
     setUser: (user) => {
       set({ user }, false, { type: 'setUser', user });
     },

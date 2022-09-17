@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
-import { Contact, Entry, Pricing, Toast } from 'components';
+import { Contact, Entry, Loading, Pricing, Toast } from 'components';
 
 import TokenService from '#services/token';
 import { useEffect } from 'react';
@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import { useUIStore } from '#store';
 
 export default function NavBar() {
-  const toggleEntryModal = useUIStore((state) => state.toggleEntryModal);
   const setUser = useUIStore((state) => state.setUser);
   const router = useRouter();
   // Getting user from localStorage
@@ -23,6 +22,7 @@ export default function NavBar() {
       <Toast />
       <Contact />
       <Pricing />
+      <Loading />
       <Flex
         align="center"
         direction="row"

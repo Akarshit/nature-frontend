@@ -14,15 +14,22 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { COUNTRIES, STATES_BY_COUNTRY } from 'brain/constants';
+import { useEffect, useState } from 'react';
 
 import { Formik } from 'formik';
-import { useState } from 'react';
 import { useUIStore } from '#store';
 
 export default function Billing() {
   const address = useUIStore((state) => state.address);
+  const user = useUIStore((state) => state.user);
   const setAddress = useUIStore((state) => state.setAddress);
   const [isInvalid, setInvalid] = useState(false);
+  useEffect(() => {
+    // setting initial value
+    if (user) {
+      setAddress(user.billingAddress || {});
+    }
+  }, [user]);
   return (
     <div>
       <Formik

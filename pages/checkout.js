@@ -13,20 +13,21 @@ export default function Checkout() {
     <Flex direction={'column'} minH="100vh" bgColor={'blackAlpha.100'}>
       <NavBar></NavBar>
       <Flex align="stretch" direction="column" justify={'center'}>
-        <Flex direction="row">
+        <Flex direction={['column', 'row']}>
           <Flex
             justify="top"
             direction="column"
-            w="50%"
-            pr={8}
-            pl={14}
+            w={['100%', '50%']}
+            pr={[0, 8]}
+            pl={[0, 14]}
             align="center"
           >
             <Flex
               direction="column"
-              w="80%"
-              m={6}
-              p={5}
+              w={['unset', '80%']}
+              mx={[4, 6]}
+              my={[4, 6]}
+              p={[4, 5]}
               bgColor="white"
               borderRadius={10}
               boxShadow="dark-lg"
@@ -35,7 +36,11 @@ export default function Checkout() {
               <Billing />
             </Flex>
           </Flex>
-          <Flex direction="column" w="50%" justify={'space-between'}>
+          <Flex
+            direction="column"
+            w={['100%', '50%']}
+            justify={'space-between'}
+          >
             <TrackerCheckoutDetails />
           </Flex>
         </Flex>

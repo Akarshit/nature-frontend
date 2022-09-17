@@ -4,6 +4,8 @@ import {
   Button,
   Divider,
   Flex,
+  FormControl,
+  FormHelperText,
   Heading,
   Link,
   Modal,
@@ -46,13 +48,13 @@ function RegisterPhone({ setEnableSubmit }) {
     <Flex my={6} direction="column" align={'center'}>
       <Flex position="relative">
         <Heading
-          color={'gray.600'}
+          color={'green.500'}
           fontFamily="sans-serif"
           fontWeight={500}
-          mb={5}
+          mb={6}
           size="lg"
         >
-          Step 1
+          Step 1:
         </Heading>
         {!!user && (
           <CheckCircleIcon color="green.500" position={'absolute'} right={-5} />
@@ -61,19 +63,20 @@ function RegisterPhone({ setEnableSubmit }) {
       <Flex mb={4} align="center">
         {!!user ? <GLoginDone /> : <GLogin />}
       </Flex>
+      <Divider my={8} borderBottomWidth={1} borderColor="green.500" w="80%" />
       <Flex direction={'column'} align="center">
         <Heading
-          color={'gray.600'}
+          color={'green.500'}
           fontFamily="sans-serif"
           fontWeight={500}
-          mb={5}
+          mb={6}
           size="lg"
         >
-          Step 2
+          Step 2:
         </Heading>
 
         <Flex align={'center'}>
-          <Text mr={4} fontWeight="bold">
+          <Text mr={4} fontWeight="bold" color={'blackAlpha.700'}>
             Phone:
           </Text>
           <PhoneInput
@@ -95,6 +98,14 @@ function RegisterPhone({ setEnableSubmit }) {
             }}
           />
         </Flex>
+        <Text
+          fontStyle={'italic'}
+          fontSize="sm"
+          mt={2}
+          color={'blackAlpha.800'}
+        >
+          For sending updates for available reservation
+        </Text>
       </Flex>
     </Flex>
   );
@@ -173,7 +184,8 @@ export default function Contact() {
     }
   };
   const actionText = showContactModal === 'register' ? 'Send OTP' : 'Submit';
-  const heading = showContactModal === 'register' ? 'Sign Up' : 'Verify OTP';
+  const heading =
+    showContactModal === 'register' ? 'Create an account' : 'Verify OTP';
   return (
     <Modal isOpen={showContactModal} onClose={() => toggleContactModal(false)}>
       <ModalOverlay />
@@ -197,7 +209,7 @@ export default function Contact() {
             Close
           </Button>
           <Button
-            colorScheme="teal"
+            colorScheme="green"
             mr={3}
             onClick={handleClick}
             disabled={!enableSubmit}
