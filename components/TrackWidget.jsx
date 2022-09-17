@@ -33,10 +33,16 @@ export default function TrackWidget() {
   const setGroupSize = useUIStore((state) => state.setGroupSize);
   const toggleContactModal = useUIStore((state) => state.toggleContactModal);
   const user = useUIStore((state) => state.user);
+  const planSlug = useUIStore((state) => state.planSlug);
+  const setShowPricingModal = useUIStore((state) => state.setShowPricingModal);
 
   const handleClick = () => {
     if (user?.contacts?.[0]?.verified) {
-      router.push('/checkout');
+      if (planSlug === null) {
+        setShowPricingModal(true);
+      } else {
+        router.push('/checkout');
+      }
     } else {
       toggleContactModal('register');
     }

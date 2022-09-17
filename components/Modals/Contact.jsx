@@ -150,15 +150,17 @@ function VerifyPhone() {
 
 export default function Contact() {
   const showContactModal = useUIStore((state) => state.showContactModal);
+  const setShowPricingModal = useUIStore((state) => state.setShowPricingModal);
   const toggleContactModal = useUIStore((state) => state.toggleContactModal);
   const registerContact = useUIStore((state) => state.registerContact);
   const verifyContact = useUIStore((state) => state.verifyContact);
   const [enableSubmit, setEnableSubmit] = useState(false);
-  const handleClick = () => {
+  const handleClick = async () => {
     if (showContactModal === 'register') {
       registerContact();
     } else if (showContactModal === 'verify') {
-      verifyContact();
+      await verifyContact();
+      setShowPricingModal(true);
     }
   };
   const actionText = showContactModal === 'register' ? 'Send OTP' : 'Submit';

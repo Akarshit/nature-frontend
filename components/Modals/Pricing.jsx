@@ -32,7 +32,7 @@ import { useState } from 'react';
 import { useUIStore } from '#store';
 
 function ShowPricing() {
-  //const contactId = useUIStore((state) => state.contactInput.contactId);
+  const setPlanSlug = useUIStore((state) => state.setPlanSlug);
   return (
     <Flex
       direction="row"
@@ -85,7 +85,7 @@ function ShowPricing() {
             size="md"
             width="50%"
             align="center"
-            //onClick={handleClick}
+            onClick={setPlanSlug('pay-as-you-go')}
             variant="outline"
             mb={16}
           >
@@ -156,7 +156,7 @@ function ShowPricing() {
             bgColor="white"
             size="md"
             width="60%"
-            //onClick={handleClick}
+            onClick={setPlanSlug('monthly')}
             variant="outline"
           >
             Select Monthly for $15
@@ -166,7 +166,7 @@ function ShowPricing() {
             bgColor="white"
             size="md"
             width="60%"
-            //onClick={handleClick}
+            onClick={setPlanSlug('yearly')}
             variant="outline"
           >
             Select Yearly for $120
@@ -182,7 +182,11 @@ export default function Pricing() {
   const togglePricingModal = useUIStore((state) => state.togglePricingModal);
 
   return (
-    <Modal isOpen={false} onClose={() => togglePricingModal(false)} size="4xl">
+    <Modal
+      isOpen={showPricingModal}
+      onClose={() => togglePricingModal(false)}
+      size="4xl"
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Select A Plan</ModalHeader>
