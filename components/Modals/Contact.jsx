@@ -16,7 +16,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
-  useToast,
 } from '@chakra-ui/react';
 import { CheckCircleIcon, WarningIcon } from '@chakra-ui/icons';
 import { GLogin, GLoginDone } from 'components';
@@ -112,7 +111,6 @@ function RegisterPhone({ setEnableSubmit }) {
 }
 
 function VerifyPhone() {
-  const toast = useToast();
   const contactId = useUIStore((state) => state.contactInput.contactId);
   const otp = useUIStore((state) => state.otp);
   const setOTP = useUIStore((state) => state.setOTP);

@@ -6,9 +6,11 @@ import {
 } from 'components';
 import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
 
+import { useState } from 'react';
 import { useUIStore } from '#store';
 
 export default function Checkout() {
+  const [card, setCard] = useState();
   return (
     <Flex direction={'column'} minH="100vh" bgColor={'blackAlpha.100'}>
       <NavBar></NavBar>
@@ -32,7 +34,7 @@ export default function Checkout() {
               borderRadius={10}
               boxShadow="dark-lg"
             >
-              <PaymentWidget />
+              <PaymentWidget setCard={setCard} />
               <Billing />
             </Flex>
           </Flex>
@@ -41,7 +43,7 @@ export default function Checkout() {
             w={['100%', '50%']}
             justify={'space-between'}
           >
-            <TrackerCheckoutDetails />
+            <TrackerCheckoutDetails card={card} />
           </Flex>
         </Flex>
       </Flex>

@@ -86,7 +86,6 @@ export default function TrackWidget() {
     debounce(getSuggestedResults, 500),
     []
   );
-  console.log(trackErrors);
   const error = Object.values(trackErrors).find((e) => !!e);
   return (
     <Flex

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useUIStore } from '#store';
 
-export default function TrackerCheckoutDetails() {
+export default function TrackerCheckoutDetails({ card }) {
   const router = useRouter();
   const {
     groupSize,
@@ -16,7 +16,7 @@ export default function TrackerCheckoutDetails() {
     endDate: checkout,
   } = useUIStore((state) => state.trackerInput, shallow);
   const {
-    campground,
+    searchInput,
     initializePayment,
     outing,
     planSlug,
@@ -25,14 +25,16 @@ export default function TrackerCheckoutDetails() {
   } = useUIStore((state) => state, shallow);
   const handlePayment = async () => {
     setLoading(true);
-    await initializePayment();
-    router.push('/profile/trackers');
+    const { success, failure } = await initializePayment({ card });
+    if (success) {
+      router.push('/profile/trackers');
+    }
     setLoading(false);
   };
   const trackerDetails = [
     {
       label: 'Campground',
-      value: campground,
+      value: searchInput,
     },
     {
       label: 'Checkin Date',
@@ -65,19 +67,19 @@ export default function TrackerCheckoutDetails() {
           outline={planSlug === 'pay-as-you-go' ? '5px solid green' : ''}
           boxShadow="dark-lg"
           onClick={() => setPlanSlug('pay-as-you-go')}
+          cursor="pointer"
         >
           <Heading size="lg" align="center" py={1} mb={2}>
             Pay As You Go
           </Heading>
-          <Text
+          <Flex
             fontSize={['1.2em', '2em']}
             justifyContent="center"
             p={[0, 5]}
-            display="flex"
             alignItems={'baseline'}
           >
             $<Text fontSize="2em">10</Text>
-          </Text>
+          </Flex>
         </Flex>
         <Flex
           direction="column"
@@ -91,6 +93,7 @@ export default function TrackerCheckoutDetails() {
           boxShadow="dark-lg"
           outline={planSlug === 'basic-monthly' ? '5px solid green' : ''}
           onClick={() => setPlanSlug('basic-monthly')}
+          cursor="pointer"
         >
           <div class="ribbon">
             <span>Save 33%</span>
@@ -99,11 +102,10 @@ export default function TrackerCheckoutDetails() {
             Subscribe
           </Heading>
           <Flex justify="space-around">
-            <Text
+            <Flex
               fontSize={['1.2em', '2em']}
               justifyContent="center"
               p={[0, 5]}
-              display="flex"
               alignItems={'baseline'}
             >
               $
@@ -111,7 +113,7 @@ export default function TrackerCheckoutDetails() {
                 15
               </Text>
               /mth
-            </Text>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>

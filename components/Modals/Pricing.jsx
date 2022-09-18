@@ -19,7 +19,6 @@ import {
   ModalOverlay,
   Stack,
   Text,
-  useToast,
 } from '@chakra-ui/react';
 import { IoCheckmarkCircleSharp, IoCloseCircleSharp } from 'react-icons/io5';
 
@@ -162,7 +161,7 @@ function ShowPricing() {
             bgColor="white"
             size="md"
             width="60%"
-            onClick={() => handleClick('monthly')}
+            onClick={() => handleClick('basic-monthly')}
             variant="outline"
           >
             Select Monthly for $15
@@ -172,7 +171,7 @@ function ShowPricing() {
             bgColor="white"
             size="md"
             width="60%"
-            onClick={() => handleClick('yearly')}
+            onClick={() => handleClick('basic-yearly')}
             variant="outline"
           >
             Select Yearly for $120

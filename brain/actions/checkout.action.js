@@ -18,13 +18,14 @@ export const tokenize = async (set, get, paymentMethod) => {
   }
 };
 
-export const handlePaymentMethodSubmission = async (set, get) => {
-  const card = get().card;
-  // Step 1: Create the tracker
-  await get().createTracker();
-
-  // Step 2: Process payment
+export const handlePaymentMethodSubmission = async (set, get, { card }) => {
+  // Step 1: Process payment
   const token = await tokenize(set, get, card);
+
+  if (!token) {
+    // Can't proceed further
+    return { failure: true };
+  }
 
   const data = {
     token,
@@ -34,7 +35,7 @@ export const handlePaymentMethodSubmission = async (set, get) => {
 
   let apiToUse = api.createPayment;
 
-  // Step 3: Make the API call
+  // Step 2: Make the API call
   // Check if it's a subscribe or pay once
   if (get().planSlug !== 'pay-as-you-go') {
     apiToUse = api.subscibe;
@@ -44,10 +45,7 @@ export const handlePaymentMethodSubmission = async (set, get) => {
     failure,
   } = await apiToUse(data);
 
-  // Step 4: activate traacker
-  await get().activateTracker({
-    trackerId: get().cartTracker._id,
-    subId: sub._id,
-  });
-  return;
+  // Step 3: Create the tracker
+  await get().createTracker({ subId: sub._id });
+  return { success: true };
 };

@@ -69,15 +69,6 @@ export const createTracker = async ({ tracker }) => {
   return resp.data;
 };
 
-export const updateTracker = async ({ tracker, trackerId, subId }) => {
-  const resp = await instance.put(`/trackers/activate`, {
-    tracker,
-    trackerId,
-    subId,
-  });
-  return resp.data;
-};
-
 export const oAuthLogin = async ({ credential }) => {
   const resp = await instance.post(`/auth/google`, {
     token: credential,
@@ -115,6 +106,7 @@ export const subscibe = async ({ token, planSlug, address }) => {
     payment: {
       locationId,
       sourceId: token,
+      // sourceId: 'cnon:card-nonce-ok',
     },
     planSlug,
     address,

@@ -19,7 +19,6 @@ export default function NavBar() {
 
   return (
     <div>
-      <Toast />
       <Contact />
       <Pricing />
       <Loading />

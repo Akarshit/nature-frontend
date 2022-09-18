@@ -15,7 +15,7 @@ export const ENTITY_TYPES = [
   // 'Vehicle',
 ];
 
-export const COUNTRIES = ['USA', 'Canada'];
+export const COUNTRIES = ['US', 'CA'];
 export const STATES_BY_COUNTRY = {
   Afghanistan: [
     'Badakhshan',
@@ -634,7 +634,7 @@ export const STATES_BY_COUNTRY = {
     'Sud',
     'Sud-Ouest',
   ],
-  Canada: [
+  CA: [
     'Alberta',
     'British Columbia',
     'Manitoba',
@@ -3587,7 +3587,7 @@ export const STATES_BY_COUNTRY = {
     'Umm al Qaywayn',
   ],
   'United Kingdom': [],
-  USA: [
+  US: [
     'Alabama',
     'Alaska',
     'Arizona',

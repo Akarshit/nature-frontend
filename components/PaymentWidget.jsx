@@ -1,14 +1,15 @@
 import { Button, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
+import { Loading } from 'components';
 import { useUIStore } from '#store';
 
-export default function PaymentWidget() {
+export default function PaymentWidget({ setCard }) {
   const appId = 'sandbox-sq0idb-JI8iCLc7yxh2rhwxyB5iuw';
-  const card = useUIStore((state) => state.card);
-  const setCard = useUIStore((state) => state.setCard);
+  // const setCard = useUIStore((state) => state.setCard);
   const cardBox = useRef();
   const locationId = 'L315D6EGPC8K1';
+  const [loading, setLoading] = useState(true);
 
   async function initializeCard(payments) {
     const cardEl = await payments.card();
@@ -24,6 +25,7 @@ export default function PaymentWidget() {
     try {
       cardEl = await initializeCard(payments);
       setCard(cardEl);
+      setLoading(false);
     } catch (e) {
       console.error('Initializing Card failed', e);
       return;
@@ -58,11 +60,8 @@ export default function PaymentWidget() {
       <Text fontSize={'2xl'} fontWeight={400} my={3} fontFamily="sans-serif">
         Enter Card Details:
       </Text>
-      <Flex
-        direction="column"
-        mt={3}
-        // boxShadow="0 1px 3px 0 rgb(60 64 67 / 30%), 0 4px 8px 3px rgb(60 64 67 / 15%)"
-      >
+      <Flex direction="column" mt={3} pos="relative" minH={'100px'}>
+        <Loading mode={'control'} loading={loading} />
         <Flex id="card-container" ref={cardBox}></Flex>
       </Flex>
     </Flex>
