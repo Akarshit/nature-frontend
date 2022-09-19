@@ -28,6 +28,7 @@ export default function DateRangePicker() {
     shallow
   );
   const [showCal, setShowCal] = useState(false);
+
   const setDates = (dates) => {
     const sD = dates.selection.startDate;
     const eD = dates.selection.endDate;

@@ -33,11 +33,11 @@ export default function NavBar(props) {
         <Heading
           size={['md', 'xl']}
           color="black"
-          fontFamily="Andale Mono"
           onClick={() => router.push('/')}
           cursor="pointer"
           display={'flex'}
           alignItems="center"
+          fontFamily="sans-serif"
         >
           <Image
             src={path}

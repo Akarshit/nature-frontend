@@ -122,5 +122,19 @@ export const createSub = async ({ sub }) => {
 
 export const getTrackers = async () => {
   const resp = await instance.get(`/trackers`);
+};
+
+export const getSub = async () => {
+  const resp = await instance.get(`/subscriptions`);
+  return resp.data;
+};
+
+export const getUser = async () => {
+  const resp = await instance.get(`/auth`);
+  return resp.data;
+};
+
+export const getPlans = async () => {
+  const resp = await instance.get(`/plans/all`);
   return resp.data;
 };

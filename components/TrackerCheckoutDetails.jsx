@@ -7,6 +7,28 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useUIStore } from '#store';
 
+const PaymentButton = ({ handlePayment }) => {
+  const { planSlug, plans, sub } = useUIStore((state) => state, shallow);
+  let buttonText = 'Create Tracker';
+  if (!sub?._id) {
+    // No subscription
+    const paymentAmount = plans?.find((plan) => plan.slug === planSlug)?.cost
+      .amount;
+    buttonText = `Pay ${paymentAmount}`;
+  }
+  return (
+    <Button
+      id="card-button"
+      type="button"
+      colorScheme={'green'}
+      onClick={handlePayment}
+      w="50%"
+    >
+      {buttonText}
+    </Button>
+  );
+};
+
 export default function TrackerCheckoutDetails({ card }) {
   const router = useRouter();
   const {
@@ -22,11 +44,13 @@ export default function TrackerCheckoutDetails({ card }) {
     planSlug,
     setPlanSlug,
     setLoading,
+    plans,
   } = useUIStore((state) => state, shallow);
   const handlePayment = async () => {
     setLoading(true);
     const { success, failure } = await initializePayment({ card });
     if (success) {
+      // delete the checkout page from history
       router.push('/profile/trackers');
     }
     setLoading(false);
@@ -147,15 +171,7 @@ export default function TrackerCheckoutDetails({ card }) {
           ))}
         </Flex>
         <Flex w="100%" justify={'center'} my={2}>
-          <Button
-            id="card-button"
-            type="button"
-            colorScheme={'green'}
-            onClick={handlePayment}
-            w="50%"
-          >
-            Pay/Subscribe
-          </Button>
+          <PaymentButton handlePayment={handlePayment} />
         </Flex>
       </Flex>
     </Flex>
