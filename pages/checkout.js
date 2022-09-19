@@ -12,13 +12,13 @@ import { useUIStore } from '#store';
 export default function Checkout() {
   const [card, setCard] = useState();
   const sub = useUIStore((state) => state.sub);
-  const noPayment = !sub?._id;
+  const noPayment = !!sub?._id;
   return (
     <Flex direction={'column'} minH="100vh" bgColor={'blackAlpha.100'}>
       <NavBar></NavBar>
       <Flex align="stretch" direction="column" justify={'center'}>
-        <Flex direction={['column', 'row']}>
-          {noPayment && (
+        <Flex direction={['column', 'row']} justify="center">
+          {!noPayment && (
             <Flex
               justify="top"
               direction="column"

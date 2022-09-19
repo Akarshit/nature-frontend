@@ -72,12 +72,7 @@ export default function TrackWidget() {
     const isValid = validate();
     if (!isValid) return;
     if (user?.contacts?.[0]?.verified) {
-      if (!sub?._id) {
-        // The user doesn't has a subscription
-        setShowPricingModal(true);
-      } else {
-        router.push('/checkout');
-      }
+      setShowPricingModal(true);
     } else {
       toggleContactModal('register');
     }

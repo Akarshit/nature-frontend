@@ -18,7 +18,12 @@ export const tokenize = async (set, get, paymentMethod) => {
   }
 };
 
-export const handlePaymentMethodSubmission = async (set, get, { card }) => {
+export const initializePayment = async (set, get, { card }) => {
+  if (get().sub?._id) {
+    // We already have the subscription. Just create the tracker
+    return get().createTracker({ subId: get().sub._id });
+  }
+
   // Step 1: Process payment
   const token = await tokenize(set, get, card);
 
@@ -46,6 +51,5 @@ export const handlePaymentMethodSubmission = async (set, get, { card }) => {
   } = await apiToUse(data);
 
   // Step 3: Create the tracker
-  await get().createTracker({ subId: sub._id });
-  return { success: true };
+  return get().createTracker({ subId: sub._id });
 };

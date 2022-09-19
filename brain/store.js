@@ -20,7 +20,8 @@ const store = (set, get) => ({
   setUser: (user) => {
     set({ user }, false, { type: 'setUser', user });
   },
-  updateUser: ({ user, calle }) => auth.updateUser(set, get, { user, calle }),
+  updateUser: ({ user, calle } = {}) =>
+    auth.updateUser(set, get, { user, calle }),
   planSlug: null,
   setPlanSlug: (slug) =>
     set({ planSlug: slug }, false, { type: 'setPlanSlug', slug }),
@@ -164,7 +165,7 @@ const store = (set, get) => ({
   toast: {},
   setToast: (toast) => set({ toast }, false, { type: 'setToast', toast }),
   initializePayment: ({ card }) =>
-    checkout.handlePaymentMethodSubmission(set, get, { card }),
+    checkout.initializePayment(set, get, { card }),
   card: null,
   setCard: (card) => set({ card }, false, { type: 'setCard', card }),
   cardError: '',
