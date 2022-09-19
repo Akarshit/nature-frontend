@@ -179,6 +179,8 @@ const store = (set, get) => ({
   },
   setAddress: (address) =>
     set({ address }, false, { type: 'setAddress', address }),
+  getTrackers: () => tracker.getTrackers(set, get),
+  trackers: [],
 });
 
 const persistParams = {

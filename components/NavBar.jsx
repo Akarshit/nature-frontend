@@ -6,9 +6,10 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useUIStore } from '#store';
 
-export default function NavBar() {
+export default function NavBar(props) {
   const setUser = useUIStore((state) => state.setUser);
   const router = useRouter();
+  const { path } = props;
   // Getting user from localStorage
   useEffect(() => {
     const user = TokenService.getUser();
@@ -39,7 +40,7 @@ export default function NavBar() {
           alignItems="center"
         >
           <Image
-            src="reserve.png"
+            src={path}
             alt="Reserve Nature"
             boxSize={['80px', '70px']}
             mr={3}

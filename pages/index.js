@@ -12,7 +12,7 @@ export default function Home() {
       bgImage="url('hero.jpg')"
       bgSize={'cover'}
     >
-      <NavBar></NavBar>
+      <NavBar path="reserve.png"></NavBar>
       <Flex justify="center" align="center" direction="column" h="80vh">
         <TrackWidget></TrackWidget>
       </Flex>

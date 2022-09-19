@@ -13,7 +13,7 @@ export default function Checkout() {
   const [card, setCard] = useState();
   return (
     <Flex direction={'column'} minH="100vh" bgColor={'blackAlpha.100'}>
-      <NavBar></NavBar>
+      <NavBar path="reserve.png"></NavBar>
       <Flex align="stretch" direction="column" justify={'center'}>
         <Flex direction={['column', 'row']}>
           <Flex

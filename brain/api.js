@@ -119,3 +119,8 @@ export const createSub = async ({ sub }) => {
   const resp = await instance.post(`/subscriptions`, { sub });
   return resp.data;
 };
+
+export const getTrackers = async () => {
+  const resp = await instance.get(`/trackers`);
+  return resp.data;
+};
