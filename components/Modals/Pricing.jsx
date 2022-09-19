@@ -26,11 +26,13 @@ import shallow from 'zustand/shallow';
 import { useRouter } from 'next/router';
 import { useUIStore } from '#store';
 
-function ShowPricing() {
+function PricingBody() {
   const { setPlanSlug, setShowPricingModal } = useUIStore(
     (state) => state,
     shallow
   );
+  const getPlans = useUIStore((state) => state.getPlans);
+
   const router = useRouter();
   const handleClick = (slug) => {
     setShowPricingModal(false);
@@ -197,7 +199,7 @@ export default function Pricing() {
         <ModalHeader>Select A Plan</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <ShowPricing />
+          <PricingBody />
         </ModalBody>
         <ModalFooter></ModalFooter>
       </ModalContent>

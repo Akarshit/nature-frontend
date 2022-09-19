@@ -39,7 +39,7 @@ export default function TrackWidget() {
     setGroupSize,
     toggleContactModal,
     user,
-    planSlug,
+    sub,
     setShowPricingModal,
     trackErrors,
     setTrackErrors,
@@ -72,7 +72,8 @@ export default function TrackWidget() {
     const isValid = validate();
     if (!isValid) return;
     if (user?.contacts?.[0]?.verified) {
-      if (planSlug === null) {
+      if (!sub?._id) {
+        // The user doesn't has a subscription
         setShowPricingModal(true);
       } else {
         router.push('/checkout');

@@ -1,6 +1,7 @@
 import * as auth from '#actions/auth';
 import * as checkout from '#actions/checkout';
 import * as contact from '#actions/contact';
+import * as plans from '#actions/plan';
 import * as search from '#actions/search';
 import * as tracker from '#actions/tracker';
 
@@ -13,19 +14,22 @@ import produce from 'immer';
 
 const store = (set, get) => ({
   user: null,
-  planSlug: null,
-  trackErrors: {},
-  setTrackErrors: (trackErrors) =>
-    set({ trackErrors }, false, { type: 'setTrackErrors', trackErrors }),
-  setPlanSlug: (slug) =>
-    set({ planSlug: slug }, false, { type: 'setPlanSlug', slug }),
-  loading: null,
-  setLoading: (loading) =>
-    set({ loading }, false, { type: 'setLoading', loading }),
   sub: {},
+  plans: [],
+  getPlans: () => plans.getPlans(set, get),
   setUser: (user) => {
     set({ user }, false, { type: 'setUser', user });
   },
+  updateUser: ({ user, calle }) => auth.updateUser(set, get, { user, calle }),
+  planSlug: null,
+  setPlanSlug: (slug) =>
+    set({ planSlug: slug }, false, { type: 'setPlanSlug', slug }),
+  trackErrors: {},
+  setTrackErrors: (trackErrors) =>
+    set({ trackErrors }, false, { type: 'setTrackErrors', trackErrors }),
+  loading: null,
+  setLoading: (loading) =>
+    set({ loading }, false, { type: 'setLoading', loading }),
   entryModal: false,
   toggleEntryModal: (entryModal) =>
     set({ entryModal: entryModal ?? !get().entryModal }, false, {
@@ -182,11 +186,10 @@ const store = (set, get) => ({
 });
 
 const persistParams = {
-  // partialize: (state) => {
-  //   return {
-  //     user: state.user,
-  //   };
-  // },
+  partialize: (state) =>
+    Object.fromEntries(
+      Object.entries(state).filter(([key]) => !['trackerInput'].includes(key))
+    ),
   getStorage: () => ({
     // Returning a promise from getItem is necessary to avoid issues with hydration
     getItem: async (name) =>

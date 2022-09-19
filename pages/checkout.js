@@ -5,39 +5,43 @@ import {
   TrackerCheckoutDetails,
 } from 'components';
 import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
-import { useState } from 'react';
 import { useUIStore } from '#store';
 
 export default function Checkout() {
   const [card, setCard] = useState();
+  const sub = useUIStore((state) => state.sub);
+  const noPayment = !sub?._id;
   return (
     <Flex direction={'column'} minH="100vh" bgColor={'blackAlpha.100'}>
       <NavBar></NavBar>
       <Flex align="stretch" direction="column" justify={'center'}>
         <Flex direction={['column', 'row']}>
-          <Flex
-            justify="top"
-            direction="column"
-            w={['100%', '50%']}
-            pr={[0, 8]}
-            pl={[0, 14]}
-            align="center"
-          >
+          {noPayment && (
             <Flex
+              justify="top"
               direction="column"
-              w={['unset', '80%']}
-              mx={[4, 6]}
-              my={[4, 6]}
-              p={[4, 5]}
-              bgColor="white"
-              borderRadius={10}
-              boxShadow="dark-lg"
+              w={['100%', '50%']}
+              pr={[0, 8]}
+              pl={[0, 14]}
+              align="center"
             >
-              <PaymentWidget setCard={setCard} />
-              <Billing />
+              <Flex
+                direction="column"
+                w={['unset', '80%']}
+                mx={[4, 6]}
+                my={[4, 6]}
+                p={[4, 5]}
+                bgColor="white"
+                borderRadius={10}
+                boxShadow="dark-lg"
+              >
+                <PaymentWidget setCard={setCard} />
+                <Billing />
+              </Flex>
             </Flex>
-          </Flex>
+          )}
           <Flex
             direction="column"
             w={['100%', '50%']}

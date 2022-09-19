@@ -1,5 +1,7 @@
 import * as api from '../api.js';
 
+import { get, set } from 'lodash';
+
 import TokenService from '#services/token';
 
 export const oAuthLogin = async (set, get, { credential }) => {
@@ -13,16 +15,35 @@ export const oAuthLogin = async (set, get, { credential }) => {
   const { token, user, planSlug } = success;
   get().setPlanSlug(planSlug);
   TokenService.setToken(token);
-  loginUser({ set, user, calle: 'oAuthLogin' });
+  get().updateUser({ user, calle: 'oAuthLogin' });
 };
 
 /**
  * This is the function that is called when we want to load the user into state
- * @param {*} param0
  */
-export const loginUser = ({ set, user, calle }) => {
-  TokenService.setUser(user);
-  set({ user }, false, { type: calle, user });
+export const updateUser = async (set, get, { user, calle }) => {
+  let apiUser = user;
+  if (!user) {
+    // get the user again
+    const {
+      success: { user: newApiUser },
+    } = await api.getUser();
+    apiUser = newApiUser;
+  }
+
+  TokenService.setUser(apiUser);
+  set({ user: apiUser }, false, { type: calle, user });
+  await postUpdateUser(set, get);
+};
+
+const postUpdateUser = async (set, get) => {
+  // We should get these after user's login
+  // 1. Get their subscripition
+  const {
+    success: { sub },
+  } = await api.getSub();
+  console.log('sub is', sub);
+  set({ sub }, false, { type: 'postUpdateUser' });
 };
 
 export const logoutUser = async (set, get) => {

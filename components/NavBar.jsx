@@ -32,11 +32,11 @@ export default function NavBar() {
         <Heading
           size={['md', 'xl']}
           color="black"
-          fontFamily="Andale Mono"
           onClick={() => router.push('/')}
           cursor="pointer"
           display={'flex'}
           alignItems="center"
+          fontFamily="sans-serif"
         >
           <Image
             src="reserve.png"

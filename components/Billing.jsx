@@ -24,12 +24,14 @@ export default function Billing() {
   const user = useUIStore((state) => state.user);
   const setAddress = useUIStore((state) => state.setAddress);
   const [isInvalid, setInvalid] = useState(false);
+
   useEffect(() => {
     // setting initial value
     if (user) {
       setAddress(user.billingAddress || {});
     }
   }, [user]);
+
   return (
     <div>
       <Formik

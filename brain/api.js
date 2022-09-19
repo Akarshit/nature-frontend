@@ -119,3 +119,18 @@ export const createSub = async ({ sub }) => {
   const resp = await instance.post(`/subscriptions`, { sub });
   return resp.data;
 };
+
+export const getSub = async () => {
+  const resp = await instance.get(`/subscriptions`);
+  return resp.data;
+};
+
+export const getUser = async () => {
+  const resp = await instance.get(`/auth`);
+  return resp.data;
+};
+
+export const getPlans = async () => {
+  const resp = await instance.get(`/plans/all`);
+  return resp.data;
+};

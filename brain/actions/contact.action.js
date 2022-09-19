@@ -1,7 +1,5 @@
 import * as api from '../api.js';
 
-import { loginUser } from '#actions/auth';
-
 export const register = async (set, get) => {
   const contact = get().contactInput;
   const { success, failure } = await api.registerContact({
@@ -14,7 +12,7 @@ export const register = async (set, get) => {
   }
   console.log(success);
   const { user } = success;
-  loginUser({ set, user, calle: 'register' });
+  get().updateUser({ user, calle: 'register' });
   set({ showContactModal: 'verify' }, false, { type: 'register' });
 };
 
@@ -35,7 +33,7 @@ export const verify = async (set, get) => {
     return;
   }
   const { user } = success;
-  loginUser({ set, user, calle: 'verify' });
+  get().updateUser({ user, calle: 'verify' });
   set({ showContactModal: false }, false, { type: 'verify' });
   get().setToast({
     title: 'Contact added',

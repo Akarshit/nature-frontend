@@ -1,9 +1,14 @@
 import { Box, Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { NavBar, TrackWidget } from 'components';
 
+import { useEffect } from 'react';
 import { useUIStore } from '#store';
 
 export default function Home() {
+  const getPlans = useUIStore((state) => state.getPlans);
+  useEffect(() => {
+    getPlans();
+  }, []);
   return (
     <Flex
       align="stretch"
