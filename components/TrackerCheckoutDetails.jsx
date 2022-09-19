@@ -14,7 +14,7 @@ const PaymentButton = ({ handlePayment }) => {
     // No subscription
     const paymentAmount = plans?.find((plan) => plan.slug === planSlug)?.cost
       .amount;
-    buttonText = `Pay ${paymentAmount}`;
+    buttonText = `Pay $${paymentAmount}`;
   }
   return (
     <Button

@@ -31,7 +31,6 @@ function PricingBody() {
     (state) => state,
     shallow
   );
-  const getPlans = useUIStore((state) => state.getPlans);
 
   const router = useRouter();
   const handleClick = (slug) => {
