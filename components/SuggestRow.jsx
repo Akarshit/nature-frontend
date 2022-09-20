@@ -27,7 +27,7 @@ function SuggestRowIcon(props) {
 }
 
 export default function SuggestRow(props) {
-  const { name, isChild, type, outingId, outing } = props;
+  const { name, isChild, type, outing } = props;
   const setOutingId = useUIStore((state) => state.setOutingId);
   const setOuting = useUIStore((state) => state.setOuting);
   const setSearchInput = useUIStore((state) => state.setSearchInput);
@@ -51,7 +51,7 @@ export default function SuggestRow(props) {
       onMouseDown={(e) => {
         if (type == 'recarea' && !isChild) {
         } else {
-          setOutingId(outingId);
+          setOutingId(outing._id);
           setOuting(outing);
           setSearchInput(toTitleCase(name));
           setShowSuggestions(false);

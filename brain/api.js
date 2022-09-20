@@ -122,6 +122,7 @@ export const createSub = async ({ sub }) => {
 
 export const getTrackers = async () => {
   const resp = await instance.get(`/trackers`);
+  return resp.data;
 };
 
 export const getSub = async () => {

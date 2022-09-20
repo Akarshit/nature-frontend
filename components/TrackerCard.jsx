@@ -7,30 +7,31 @@ import shallow from 'zustand/shallow';
 //import { useRouter } from 'next/router';
 //import { useState } from 'react';
 import { useUIStore } from '#store';
+
 //import { HiPause, HiPlay } from 'react-icons/hi2';
 
-
 export default function TrackerCard(props) {
-  const { trackerId } = props;
+  const { trackerId, tracker } = props;
+  const { searchInput, outing } = useUIStore((state) => state, shallow);
   const {
+    outing: { name },
+    startDate,
+    endDate,
     groupSize,
     equipmentType,
-    startDate: checkin,
-    endDate: checkout,
-  } = useUIStore((state) => state.trackerInput, shallow);
-  const { searchInput, outing } = useUIStore((state) => state, shallow);
+  } = tracker;
   const trackerDetails = [
     {
       label: 'Campground',
-      value: searchInput,
+      value: name,
     },
     {
       label: 'Checkin Date',
-      value: convertDateToUTC(new Date(checkin)).toDateString(),
+      value: convertDateToUTC(new Date(tracker.startDate)).toDateString(),
     },
     {
       label: 'Checkout Date',
-      value: convertDateToUTC(new Date(checkout)).toDateString(),
+      value: convertDateToUTC(new Date(endDate)).toDateString(),
     },
     {
       label: 'Group Size',

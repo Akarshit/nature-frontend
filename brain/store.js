@@ -190,7 +190,9 @@ const store = (set, get) => ({
 const persistParams = {
   partialize: (state) =>
     Object.fromEntries(
-      Object.entries(state).filter(([key]) => !['trackerInput'].includes(key))
+      Object.entries(state).filter(
+        ([key]) => !['trackerInput', 'loading'].includes(key)
+      )
     ),
   getStorage: () => ({
     // Returning a promise from getItem is necessary to avoid issues with hydration

@@ -11,22 +11,17 @@ export default function SuggestArea(props) {
   } = suggestion;
   return (
     <Flex direction="column" align="stretch" p={1.5}>
-      <SuggestRow
-        name={parentName}
-        type={parentType}
-        outingId={parentOutingId}
-      />
+      <SuggestRow name={parentName} type={parentType} outingId={suggestion} />
       {!!children && (
         <Flex align="stretch" direction="column">
           {children.map((child) => {
             return (
               <SuggestRow
-                key={child.entity_id}
+                key={child._id}
                 name={child.name}
                 isChild
                 type={child.entity_type}
-                outingId={child.entity_id}
-                outing={suggestion}
+                outing={child}
               />
             );
           })}

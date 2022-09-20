@@ -2,14 +2,26 @@ import { Flex, Heading, Text } from '@chakra-ui/react';
 import { NavBar, TrackerCard } from 'components';
 import { useEffect, useState } from 'react';
 
+import { orderBy } from 'lodash';
 import shallow from 'zustand/shallow';
 import { useUIStore } from '#store';
 
 export default function Trackers() {
-  const { getTrackers } = useUIStore((state) => state, shallow);
+  const { getTrackers, trackers } = useUIStore((state) => state, shallow);
   useEffect(() => {
     getTrackers();
   }, []);
+  const currentTrackers = orderBy(
+    trackers.filter((tracker) => tracker.status in ['active', 'paused']),
+    ['status', 'startDate'],
+    ['asc', 'desc']
+  );
+  const expiredTrackers = orderBy(
+    trackers.filter((tracker) => tracker.status in ['expired']),
+    ['startDate'],
+    ['desc']
+  );
+
   return (
     <Flex direction={'column'} minH="100vh" bgColor={'blackAlpha.100'}>
       <NavBar path="/reserve.png"></NavBar>
@@ -23,8 +35,14 @@ export default function Trackers() {
         YOUR TRACKERS
       </Heading>
       <Flex direction="column" justify="center" p={5} flexFlow="wrap">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-          <TrackerCard key={item} />
+        {currentTrackers.map((t) => (
+          <TrackerCard key={t._id} tracker={t} />
+        ))}
+      </Flex>
+
+      <Flex direction="column" justify="center" p={5} flexFlow="wrap">
+        {expiredTrackers.map((t) => (
+          <TrackerCard key={t._id} tracker={t} />
         ))}
       </Flex>
     </Flex>
