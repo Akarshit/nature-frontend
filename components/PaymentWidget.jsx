@@ -35,7 +35,7 @@ export default function PaymentWidget({ setCard }) {
     if (window && document) {
       const script = document.createElement('script');
 
-      script.src = 'https://sandbox.web.squarecdn.com/v1/square.js';
+      script.src = process.env.NEXT_PUBLIC_SQUARE_SCRIPT_URL;
       script.type = 'text/javascript';
       script.async = true;
       script.addEventListener('load', () => {
