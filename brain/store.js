@@ -186,14 +186,16 @@ const store = (set, get) => ({
     set({ address }, false, { type: 'setAddress', address }),
   getTrackers: () => tracker.getTrackers(set, get),
   trackers: [],
+  locationId: null,
+  getLocation: () => checkout.getLocation(set, get),
+  updateTrackerStatus: ({ status, _id }) =>
+    tracker.updateTrackerStatus(set, get, { status, _id }),
 });
 
 const persistParams = {
   partialize: (state) =>
     Object.fromEntries(
-      Object.entries(state).filter(
-        ([key]) => !['trackerInput', 'loading'].includes(key)
-      )
+      Object.entries(state).filter(([key]) => [].includes(key))
     ),
   getStorage: () => ({
     // Returning a promise from getItem is necessary to avoid issues with hydration

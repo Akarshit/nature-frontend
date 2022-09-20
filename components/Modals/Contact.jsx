@@ -34,6 +34,7 @@ function RegisterPhone({ setEnableSubmit }) {
   const user = useUIStore((state) => state.user);
   const sub = useUIStore((state) => state.sub);
   useEffect(() => {
+    checkValidity(contactId);
     if (user?.contacts?.[0]?.verified === true) {
       setShowPricingModal(true);
       toggleContactModal(false);

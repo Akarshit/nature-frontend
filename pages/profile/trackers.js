@@ -12,12 +12,14 @@ export default function Trackers() {
     getTrackers();
   }, []);
   const currentTrackers = orderBy(
-    trackers.filter((tracker) => tracker.status in ['active', 'paused']),
+    trackers.filter((tracker) => ['active', 'paused'].includes(tracker.status)),
     ['status', 'startDate'],
     ['asc', 'desc']
   );
   const expiredTrackers = orderBy(
-    trackers.filter((tracker) => tracker.status in ['expired']),
+    trackers.filter((tracker) =>
+      ['expired', 'deleted'].includes(tracker.status)
+    ),
     ['startDate'],
     ['desc']
   );
@@ -32,14 +34,22 @@ export default function Trackers() {
         m={5}
         fontFamily="Roboto, Arial, sans-serif"
       >
-        YOUR TRACKERS
+        Current Tracker
       </Heading>
       <Flex direction="column" justify="center" p={5} flexFlow="wrap">
         {currentTrackers.map((t) => (
           <TrackerCard key={t._id} tracker={t} />
         ))}
       </Flex>
-
+      <Heading
+        size="lg"
+        align="center"
+        p={1}
+        m={5}
+        fontFamily="Roboto, Arial, sans-serif"
+      >
+        Previous Trackers
+      </Heading>
       <Flex direction="column" justify="center" p={5} flexFlow="wrap">
         {expiredTrackers.map((t) => (
           <TrackerCard key={t._id} tracker={t} />

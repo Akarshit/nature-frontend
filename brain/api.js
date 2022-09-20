@@ -26,12 +26,14 @@ instance.interceptors.response.use(
   },
   async (err) => {
     const originalConfig = err.config;
-    if (originalConfig.url !== '/auth/signin' && err.response) {
+    if (originalConfig.url !== '/auth/google' && err.response) {
       // Access Token was expired
+      console.log(err);
       if (
         err.response.status === 401 &&
         !originalConfig._retry &&
-        err.response?.data?.message === 'Incorrect email or refreshToken'
+        err.response?.data?.failure?.message ===
+          'Incorrect email or refreshToken'
       ) {
         // We should log out the user
         TokenService.removeToken();
@@ -39,7 +41,7 @@ instance.interceptors.response.use(
       } else if (
         err.response.status === 401 &&
         !originalConfig._retry &&
-        err.response?.data?.message !== 'No auth token'
+        err.response?.data?.failure?.message !== 'No auth token'
       ) {
         originalConfig._retry = true;
         try {
@@ -47,7 +49,7 @@ instance.interceptors.response.use(
             refreshToken: TokenService.getLocalRefreshToken(),
             email: TokenService.getUser().email,
           });
-          const { accessToken } = rs.data;
+          const { accessToken } = rs.data?.success;
           TokenService.updateLocalAccessToken(accessToken);
           return instance(originalConfig);
         } catch (_error) {
@@ -86,8 +88,12 @@ export const verifyContact = async ({ contact, code }) => {
   return resp.data;
 };
 
-export const createPayment = async ({ token, planSlug, address }) => {
-  const locationId = 'L315D6EGPC8K1';
+export const createPayment = async ({
+  token,
+  planSlug,
+  address,
+  locationId,
+}) => {
   const body = {
     payment: {
       locationId,
@@ -100,13 +106,12 @@ export const createPayment = async ({ token, planSlug, address }) => {
   return resp.data;
 };
 
-export const subscibe = async ({ token, planSlug, address }) => {
-  const locationId = 'L315D6EGPC8K1';
+export const subscibe = async ({ token, planSlug, address, locationId }) => {
   const body = {
     payment: {
       locationId,
-      sourceId: token,
-      // sourceId: 'cnon:card-nonce-ok',
+      // sourceId: token,
+      sourceId: 'cnon:card-nonce-ok',
     },
     planSlug,
     address,
@@ -137,5 +142,17 @@ export const getUser = async () => {
 
 export const getPlans = async () => {
   const resp = await instance.get(`/plans/all`);
+  return resp.data;
+};
+
+export const getLocation = async () => {
+  const resp = await instance.get(`/payments/location`);
+  return resp.data;
+};
+
+export const updateTrackerStatus = async ({ tracker }) => {
+  const resp = await instance.put(`/trackers/update`, {
+    tracker,
+  });
   return resp.data;
 };

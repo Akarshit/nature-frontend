@@ -36,6 +36,7 @@ export const initializePayment = async (set, get, { card }) => {
     token,
     planSlug: get().planSlug,
     address: get().address,
+    locationId: get().locationId,
   };
 
   let apiToUse = api.createPayment;
@@ -50,6 +51,26 @@ export const initializePayment = async (set, get, { card }) => {
     failure,
   } = await apiToUse(data);
 
+  if (failure) {
+    get().setToast({
+      title: 'Payment Failed',
+      // description: "We've created your account for you.",
+      status: 'error',
+      duration: 2000,
+      isClosable: true,
+      position: 'top',
+    });
+    return;
+  }
+
   // Step 3: Create the tracker
   return get().createTracker({ subId: sub._id });
+};
+
+export const getLocation = async (set, get) => {
+  const {
+    success: { locationId },
+    failure,
+  } = await api.getLocation();
+  set({ locationId }, false, { type: getLocation, locationId });
 };

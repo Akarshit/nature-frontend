@@ -30,3 +30,17 @@ export const getTrackers = async (set, get) => {
   console.log(success);
   set({ trackers: success.trackers }, false, 'getTrackers');
 };
+
+export const updateTrackerStatus = async (set, get, { status, _id }) => {
+  const { success, failure } = await api.updateTrackerStatus({
+    tracker: {
+      status,
+      _id,
+    },
+  });
+  if (failure) {
+  }
+  console.log(success);
+  // refetch trackers
+  get().getTrackers();
+};

@@ -1,25 +1,19 @@
 import { Flex, IconButton, Image, Text } from '@chakra-ui/react';
+import { IoIosPause, IoIosPlay } from 'react-icons/io';
 
 import { IoClose } from 'react-icons/io5';
-import { IoIosPause } from 'react-icons/io';
 import { convertDateToUTC } from 'utils';
 import shallow from 'zustand/shallow';
 //import { useRouter } from 'next/router';
 //import { useState } from 'react';
 import { useUIStore } from '#store';
 
-//import { HiPause, HiPlay } from 'react-icons/hi2';
-
 export default function TrackerCard(props) {
-  const { trackerId, tracker } = props;
-  const { searchInput, outing } = useUIStore((state) => state, shallow);
-  const {
-    outing: { name },
-    startDate,
-    endDate,
-    groupSize,
-    equipmentType,
-  } = tracker;
+  const { updateTrackerStatus } = useUIStore((state) => state);
+  const { tracker } = props;
+  const { outing, startDate, endDate, groupSize, equipmentType, status } =
+    tracker;
+  const { name } = outing;
   const trackerDetails = [
     {
       label: 'Campground',
@@ -93,9 +87,15 @@ export default function TrackerCard(props) {
           colorScheme="green"
           aria-label="Pause"
           fontSize="20px"
-          icon={<IoIosPause />}
+          icon={status === 'active' ? <IoIosPause /> : <IoIosPlay />}
           mx={2}
           borderRadius={20}
+          onClick={() =>
+            updateTrackerStatus({
+              _id: tracker._id,
+              status: status === 'active' ? 'paused' : 'active',
+            })
+          }
         />
         <IconButton
           variant="outline"
@@ -105,6 +105,9 @@ export default function TrackerCard(props) {
           icon={<IoClose />}
           mx={2}
           borderRadius={20}
+          onClick={() =>
+            updateTrackerStatus({ _id: tracker._id, status: 'deleted' })
+          }
         />
       </Flex>
     </Flex>
