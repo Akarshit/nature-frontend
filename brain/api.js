@@ -93,11 +93,13 @@ export const createPayment = async ({
   planSlug,
   address,
   locationId,
+  verificationToken,
 }) => {
   const body = {
     payment: {
       locationId,
       sourceId: token,
+      verificationToken,
     },
     planSlug,
     address,
@@ -106,13 +108,21 @@ export const createPayment = async ({
   return resp.data;
 };
 
-export const subscibe = async ({ token, planSlug, address, locationId }) => {
+export const subscibe = async ({
+  token,
+  planSlug,
+  address,
+  locationId,
+  verificationToken,
+}) => {
   const body = {
     payment: {
       locationId,
-      sourceId: process.env.NEXT_PUBLIC_CARD_NONCE
-        ? process.env.NEXT_PUBLIC_CARD_NONCE
-        : token,
+      // sourceId: process.env.NEXT_PUBLIC_CARD_NONCE
+      //   ? process.env.NEXT_PUBLIC_CARD_NONCE
+      //   : token,
+      sourceId: token,
+      verificationToken,
     },
     planSlug,
     address,

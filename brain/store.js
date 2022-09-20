@@ -188,6 +188,9 @@ const store = (set, get) => ({
   trackers: [],
   updateTrackerStatus: ({ status, _id }) =>
     tracker.updateTrackerStatus(set, get, { status, _id }),
+  payments: {},
+  setPayments: (payments) =>
+    set({ payments }, false, { type: 'setPayments', payments }),
 });
 
 const persistParams = {

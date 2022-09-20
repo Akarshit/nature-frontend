@@ -2,16 +2,19 @@ import { Button, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
 
 import { Loading } from 'components';
+import shallow from 'zustand/shallow';
 import { useUIStore } from '#store';
 
 export default function PaymentWidget({ setCard }) {
   const cardBox = useRef();
+  const { setPayments } = useUIStore((state) => state, shallow);
   const appId = process.env.NEXT_PUBLIC_APP_ID;
   const locationId = process.env.NEXT_PUBLIC_LOCATION_ID;
   const [loading, setLoading] = useState(true);
 
   async function initializeCard(payments) {
     const cardEl = await payments.card();
+    setPayments(payments);
     if (!cardBox.current?.getInnerHTML()) {
       await cardEl.attach('#card-container');
     }
