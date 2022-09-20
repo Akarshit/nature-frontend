@@ -186,8 +186,6 @@ const store = (set, get) => ({
     set({ address }, false, { type: 'setAddress', address }),
   getTrackers: () => tracker.getTrackers(set, get),
   trackers: [],
-  locationId: null,
-  getLocation: () => checkout.getLocation(set, get),
   updateTrackerStatus: ({ status, _id }) =>
     tracker.updateTrackerStatus(set, get, { status, _id }),
 });

@@ -110,8 +110,9 @@ export const subscibe = async ({ token, planSlug, address, locationId }) => {
   const body = {
     payment: {
       locationId,
-      sourceId: token,
-      // sourceId: 'cnon:card-nonce-ok',
+      sourceId: process.env.NEXT_PUBLIC_CARD_NONCE
+        ? process.env.NEXT_PUBLIC_CARD_NONCE
+        : token,
     },
     planSlug,
     address,
@@ -142,11 +143,6 @@ export const getUser = async () => {
 
 export const getPlans = async () => {
   const resp = await instance.get(`/plans/all`);
-  return resp.data;
-};
-
-export const getLocation = async () => {
-  const resp = await instance.get(`/payments/location`);
   return resp.data;
 };
 

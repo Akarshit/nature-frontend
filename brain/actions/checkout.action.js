@@ -36,7 +36,7 @@ export const initializePayment = async (set, get, { card }) => {
     token,
     planSlug: get().planSlug,
     address: get().address,
-    locationId: get().locationId,
+    locationId: process.env.NEXT_PUBLIC_LOCATION_ID,
   };
 
   let apiToUse = api.createPayment;
@@ -65,12 +65,4 @@ export const initializePayment = async (set, get, { card }) => {
 
   // Step 3: Create the tracker
   return get().createTracker({ subId: sub._id });
-};
-
-export const getLocation = async (set, get) => {
-  const {
-    success: { locationId },
-    failure,
-  } = await api.getLocation();
-  set({ locationId }, false, { type: getLocation, locationId });
 };

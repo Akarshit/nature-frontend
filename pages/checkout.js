@@ -12,11 +12,7 @@ import { useUIStore } from '#store';
 export default function Checkout() {
   const [card, setCard] = useState();
   const sub = useUIStore((state) => state.sub);
-  const getLocation = useUIStore((state) => state.getLocation);
   const noPayment = !!sub?._id;
-  useEffect(() => {
-    getLocation();
-  }, []);
   return (
     <Flex direction={'column'} minH="100vh" bgColor={'blackAlpha.100'}>
       <NavBar path="reserve.png"></NavBar>

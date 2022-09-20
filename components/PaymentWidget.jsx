@@ -5,10 +5,9 @@ import { Loading } from 'components';
 import { useUIStore } from '#store';
 
 export default function PaymentWidget({ setCard }) {
-  const appId = 'sandbox-sq0idb-JI8iCLc7yxh2rhwxyB5iuw';
-  // const setCard = useUIStore((state) => state.setCard);
   const cardBox = useRef();
-  const locationId = 'L315D6EGPC8K1';
+  const appId = process.env.NEXT_PUBLIC_APP_ID;
+  const locationId = process.env.NEXT_PUBLIC_LOCATION_ID;
   const [loading, setLoading] = useState(true);
 
   async function initializeCard(payments) {
