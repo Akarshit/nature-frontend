@@ -20,6 +20,7 @@ export const createTracker = async (set, get, { subId }) => {
     isClosable: true,
     position: 'top',
   });
+  return { success, failure };
 };
 
 export const getTrackers = async (set, get) => {

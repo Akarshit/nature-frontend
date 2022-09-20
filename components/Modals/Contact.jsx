@@ -32,13 +32,13 @@ function RegisterPhone({ setEnableSubmit }) {
   const setShowPricingModal = useUIStore((state) => state.setShowPricingModal);
   const toggleContactModal = useUIStore((state) => state.toggleContactModal);
   const user = useUIStore((state) => state.user);
+  const sub = useUIStore((state) => state.sub);
   useEffect(() => {
     if (user?.contacts?.[0]?.verified === true) {
-      // We have the user's phone. Show pricing info
       setShowPricingModal(true);
       toggleContactModal(false);
     }
-  }, [user]);
+  }, [user, sub]);
   const checkValidity = (inputNumber) => {
     setContactIdInput(inputNumber);
     setEnableSubmit(isValidPhoneNumber(`+${inputNumber}`));

@@ -8,14 +8,12 @@ import { useUIStore } from '#store';
 
 export default function NavBar(props) {
   const setUser = useUIStore((state) => state.setUser);
+  const updateUser = useUIStore((state) => state.updateUser);
   const router = useRouter();
   const { path } = props;
   // Getting user from localStorage
   useEffect(() => {
-    const user = TokenService.getUser();
-    if (user) {
-      setUser(user);
-    }
+    updateUser();
   }, []);
 
   return (

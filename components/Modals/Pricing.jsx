@@ -23,17 +23,24 @@ import {
 import { IoCheckmarkCircleSharp, IoCloseCircleSharp } from 'react-icons/io5';
 
 import shallow from 'zustand/shallow';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useUIStore } from '#store';
 
 function PricingBody() {
-  const { setPlanSlug, setShowPricingModal } = useUIStore(
+  const { setPlanSlug, setShowPricingModal, sub } = useUIStore(
     (state) => state,
     shallow
   );
-  const getPlans = useUIStore((state) => state.getPlans);
-
   const router = useRouter();
+
+  useEffect(() => {
+    if (sub?._id) {
+      setShowPricingModal(false);
+      router.push('/checkout');
+    }
+  }, [sub]);
+
   const handleClick = (slug) => {
     setShowPricingModal(false);
     setPlanSlug(slug);
