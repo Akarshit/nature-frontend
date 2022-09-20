@@ -110,8 +110,8 @@ export const subscibe = async ({ token, planSlug, address, locationId }) => {
   const body = {
     payment: {
       locationId,
-      // sourceId: token,
-      sourceId: 'cnon:card-nonce-ok',
+      sourceId: token,
+      // sourceId: 'cnon:card-nonce-ok',
     },
     planSlug,
     address,
