@@ -17,36 +17,40 @@ export default function NavBar(props) {
   }, []);
 
   return (
-    <div>
+    <Box>
       <Contact />
       <Pricing />
-      <Loading />
-      <Flex
-        align="center"
-        direction="row"
-        justify="space-between"
-        backgroundColor="white"
-        pr={4}
-      >
-        <Heading
-          size={['md', 'xl']}
-          color="black"
-          onClick={() => router.push('/')}
-          cursor="pointer"
-          display={'flex'}
-          alignItems="center"
-          fontFamily="sans-serif"
+      <Flex direction={'column'}>
+        <Flex
+          align="center"
+          direction="row"
+          justify="space-between"
+          backgroundColor="white"
+          pr={4}
         >
-          <Image
-            src={path}
-            alt="Reserve Nature"
-            boxSize={['80px', '70px']}
-            mr={3}
-          />
-          Reserve Nature
-        </Heading>
-        <Entry />
+          <Heading
+            size={['md', 'xl']}
+            color="black"
+            onClick={() => router.push('/')}
+            cursor="pointer"
+            display={'flex'}
+            alignItems="center"
+            fontFamily="sans-serif"
+          >
+            <Image
+              src={path}
+              alt="Reserve Nature"
+              boxSize={['80px', '70px']}
+              mr={3}
+            />
+            Reserve Nature
+          </Heading>
+          <Entry />
+        </Flex>
+        <Box pos="relative">
+          <Loading />
+        </Box>
       </Flex>
-    </div>
+    </Box>
   );
 }

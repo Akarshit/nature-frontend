@@ -26,38 +26,41 @@ instance.interceptors.response.use(
   },
   async (err) => {
     const originalConfig = err.config;
-    if (originalConfig.url !== '/auth/google' && err.response) {
-      // Access Token was expired
+    if (err?.response?.status === 401) {
       console.log(err);
-      if (
-        err.response.status === 401 &&
-        !originalConfig._retry &&
-        err.response?.data?.failure?.message ===
-          'Incorrect email or refreshToken'
-      ) {
+      // we are in auth related issue category
+      if (originalConfig.url === '/auth/refresh-token') {
+        // refresh-token request has failed
         // We should log out the user
         TokenService.removeToken();
         TokenService.removeUser();
-      } else if (
-        err.response.status === 401 &&
-        !originalConfig._retry &&
-        err.response?.data?.failure?.message !== 'No auth token'
-      ) {
-        originalConfig._retry = true;
-        try {
-          const rs = await instance.post('/auth/refresh-token', {
-            refreshToken: TokenService.getLocalRefreshToken(),
-            email: TokenService.getUser().email,
-          });
-          const { accessToken } = rs.data?.success;
-          TokenService.updateLocalAccessToken(accessToken);
-          return instance(originalConfig);
-        } catch (_error) {
-          return Promise.reject(_error);
+      } else if (originalConfig.url !== '/auth/google') {
+        if (err?.response?.data?.failure?.message === 'jwt expired') {
+          // The JWT has expired fetch a new token
+          originalConfig._retry = true;
+          try {
+            const rs = await instance.post('/auth/refresh-token', {
+              refreshToken: TokenService.getLocalRefreshToken(),
+              email: TokenService.getUser().email,
+            });
+            const { accessToken } = rs.data?.success;
+            TokenService.updateLocalAccessToken(accessToken);
+            return instance(originalConfig);
+          } catch (_error) {
+            return Promise.reject(_error.response);
+          }
+        } else if (
+          err.response?.data?.failure?.message === 'No auth token' ||
+          err.response?.data?.failure?.message ===
+            'Incorrect email or refreshToken'
+        ) {
+          // We should log out the user
+          TokenService.removeToken();
+          TokenService.removeUser();
         }
       }
+      return Promise.reject(err.response);
     }
-    return Promise.reject(err);
   }
 );
 
@@ -94,6 +97,7 @@ export const createPayment = async ({
   address,
   locationId,
   verificationToken,
+  paymentMode,
 }) => {
   const body = {
     payment: {
@@ -103,9 +107,14 @@ export const createPayment = async ({
     },
     planSlug,
     address,
+    paymentMode,
   };
-  const resp = await instance.post('/payments/create', body);
-  return resp.data;
+  try {
+    const resp = await instance.post('/payments/create', body);
+    return resp.data;
+  } catch (err) {
+    return err.response.data;
+  }
 };
 
 export const subscibe = async ({
@@ -114,6 +123,7 @@ export const subscibe = async ({
   address,
   locationId,
   verificationToken,
+  paymentMode,
 }) => {
   const body = {
     payment: {
@@ -126,9 +136,14 @@ export const subscibe = async ({
     },
     planSlug,
     address,
+    paymentMode,
   };
-  const resp = await instance.post('/payments/subscribe', body);
-  return resp.data;
+  try {
+    const resp = await instance.post('/payments/subscribe', body);
+    return resp.data;
+  } catch (err) {
+    return err.response.data;
+  }
 };
 
 export const createSub = async ({ sub }) => {
@@ -159,6 +174,18 @@ export const getPlans = async () => {
 export const updateTrackerStatus = async ({ tracker }) => {
   const resp = await instance.put(`/trackers/update`, {
     tracker,
+  });
+  return resp.data;
+};
+
+export const getGiftCards = async () => {
+  const resp = await instance.get(`/giftcards`);
+  return resp.data;
+};
+
+export const updateSubStatus = async ({ subscription }) => {
+  const resp = await instance.post(`/subscriptions/update`, {
+    subscription,
   });
   return resp.data;
 };

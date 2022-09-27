@@ -3,7 +3,7 @@ import * as api from '../api.js';
 async function verifyBuyer(set, get, { token }) {
   const { address, plans, planSlug, user } = get();
   const currentPlan = plans?.find((plan) => plan.slug === planSlug);
-  const { cost, currency } = currentPlan.cost.amount;
+  const { amount, currency } = currentPlan.cost;
   const payments = get().payments;
   const verificationDetails = {
     /* collected from the buyer */
@@ -21,7 +21,7 @@ async function verifyBuyer(set, get, { token }) {
 
   if (currentPlan.cadence === 'ONCE') {
     verificationDetails.currencyCode = currency;
-    verificationDetails.amount = `${cost}`;
+    verificationDetails.amount = `${amount}`;
     verificationDetails.intent = 'CHARGE';
   } else {
     verificationDetails.intent = 'STORE';
@@ -39,8 +39,8 @@ async function verifyBuyer(set, get, { token }) {
 // which is due to buyer error (such as an expired card). It is up to the
 // developer to handle the error and provide the buyer the chance to fix
 // their mistakes.
-export const tokenize = async (set, get, paymentMethod) => {
-  const tokenResult = await paymentMethod.tokenize();
+export const tokenize = async (set, get, paymentMode) => {
+  const tokenResult = await paymentMode.tokenize();
   if (tokenResult.status === 'OK') {
     const verificationToken = await verifyBuyer(set, get, {
       token: tokenResult.token,
@@ -56,11 +56,13 @@ export const tokenize = async (set, get, paymentMethod) => {
   }
 };
 
-export const initializePayment = async (set, get, { card }) => {
+export const initializePayment = async (set, get) => {
   if (get().sub?._id) {
     // We already have the subscription. Just create the tracker
     return get().createTracker({ subId: get().sub._id });
   }
+
+  const card = get().card;
 
   // Step 1: Process payment
   const { token, verificationToken } = await tokenize(set, get, card);
@@ -70,12 +72,15 @@ export const initializePayment = async (set, get, { card }) => {
     return { failure: true };
   }
 
+  const paymentMode = get().paymentMode;
+
   const data = {
     token,
     planSlug: get().planSlug,
     address: get().address,
     locationId: process.env.NEXT_PUBLIC_LOCATION_ID,
     verificationToken,
+    paymentMode,
   };
 
   let apiToUse = api.createPayment;
@@ -85,22 +90,22 @@ export const initializePayment = async (set, get, { card }) => {
   if (get().planSlug !== 'pay-as-you-go') {
     apiToUse = api.subscibe;
   }
-  const {
-    success: { sub },
-    failure,
-  } = await apiToUse(data);
+  const { success, failure } = await apiToUse(data);
 
   if (failure) {
+    set({ loading: false });
     get().setToast({
       title: 'Payment Failed',
-      // description: "We've created your account for you.",
+      description: failure.message,
       status: 'error',
       duration: 2000,
       isClosable: true,
       position: 'top',
     });
-    return;
+    // end loading
+    return { failure: true };
   }
+  const { sub } = success;
 
   // Step 3: Create the tracker
   return get().createTracker({ subId: sub._id });

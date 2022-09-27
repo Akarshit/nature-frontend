@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Field,
   Flex,
@@ -23,6 +24,8 @@ export default function Billing() {
   const address = useUIStore((state) => state.address);
   const user = useUIStore((state) => state.user);
   const setAddress = useUIStore((state) => state.setAddress);
+  const paymentMode = useUIStore((state) => state.paymentMode);
+  const isDisabled = paymentMode === 'gift-card';
   const [isInvalid, setInvalid] = useState(false);
 
   useEffect(() => {
@@ -33,7 +36,7 @@ export default function Billing() {
   }, [user]);
 
   return (
-    <div>
+    <Box>
       <Formik
         initialValues={address}
         validate={(values) => {
@@ -62,11 +65,11 @@ export default function Billing() {
         }) => (
           <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
-              <Text fontSize={'2xl'} mb={3} mt={-3} fontFamily="sans-serif">
+              <Text fontSize={'2xl'} mb={3} mt={3} fontFamily="sans-serif">
                 Enter Billing Details:
               </Text>
               <Stack direction={'row'} spacing={10}>
-                <FormControl isInvalid={false}>
+                <FormControl isInvalid={false} isDisabled={isDisabled}>
                   <FormLabel color="blackAlpha.700">First Name:</FormLabel>
                   <Input
                     type="firstName"
@@ -77,7 +80,7 @@ export default function Billing() {
                   />
                   <FormErrorMessage>{errors.firstName}</FormErrorMessage>
                 </FormControl>
-                <FormControl>
+                <FormControl isDisabled={isDisabled}>
                   <FormLabel color="blackAlpha.700">Last Name:</FormLabel>
                   <Input
                     type="lastName"
@@ -89,7 +92,7 @@ export default function Billing() {
                   <FormErrorMessage>{errors.lastName}</FormErrorMessage>
                 </FormControl>
               </Stack>
-              <FormControl>
+              <FormControl isDisabled={isDisabled}>
                 <FormLabel color="blackAlpha.700">Address Line 1:</FormLabel>
                 <Input
                   type="line1"
@@ -100,7 +103,7 @@ export default function Billing() {
                 />
                 <FormErrorMessage>{errors.line1}</FormErrorMessage>
               </FormControl>
-              <FormControl>
+              <FormControl isDisabled={isDisabled}>
                 <FormLabel color="blackAlpha.700">Address Line 2:</FormLabel>
                 <Input
                   type="line2"
@@ -112,7 +115,7 @@ export default function Billing() {
                 <FormErrorMessage>{errors.line2}</FormErrorMessage>
               </FormControl>
               <Stack direction="row">
-                <FormControl maxW={'9em'}>
+                <FormControl maxW={'9em'} isDisabled={isDisabled}>
                   <FormLabel color="blackAlpha.700">Country:</FormLabel>
                   <Select
                     placeholder="Select option"
@@ -130,7 +133,7 @@ export default function Billing() {
                   </Select>
                   <FormErrorMessage>{errors.country}</FormErrorMessage>
                 </FormControl>
-                <FormControl maxW={'9em'}>
+                <FormControl maxW={'9em'} isDisabled={isDisabled}>
                   <FormLabel color="blackAlpha.700">State:</FormLabel>
                   <Select
                     placeholder="Select option"
@@ -148,7 +151,7 @@ export default function Billing() {
                   </Select>
                   <FormErrorMessage>{errors.state}</FormErrorMessage>
                 </FormControl>
-                <FormControl>
+                <FormControl isDisabled={isDisabled}>
                   <FormLabel color="blackAlpha.700">City:</FormLabel>
                   <Input
                     type="city"
@@ -160,7 +163,7 @@ export default function Billing() {
                   <FormErrorMessage>{errors.city}</FormErrorMessage>
                 </FormControl>
               </Stack>
-              <FormControl mb={4}>
+              <FormControl mb={4} isDisabled={isDisabled}>
                 <FormLabel color="blackAlpha.700">Zip Code:</FormLabel>
                 <Input
                   type="zipcode"
@@ -175,6 +178,6 @@ export default function Billing() {
           </form>
         )}
       </Formik>
-    </div>
+    </Box>
   );
 }

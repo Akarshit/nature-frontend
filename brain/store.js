@@ -1,8 +1,10 @@
 import * as auth from '#actions/auth';
 import * as checkout from '#actions/checkout';
 import * as contact from '#actions/contact';
+import * as gc from '#actions/giftCards';
 import * as plans from '#actions/plan';
 import * as search from '#actions/search';
+import * as sub from '#actions/sub';
 import * as tracker from '#actions/tracker';
 
 import create from 'zustand';
@@ -164,13 +166,15 @@ const store = (set, get) => ({
     ),
   toast: {},
   setToast: (toast) => set({ toast }, false, { type: 'setToast', toast }),
-  initializePayment: ({ card }) =>
-    checkout.initializePayment(set, get, { card }),
+  initializePayment: () => checkout.initializePayment(set, get),
   card: null,
   setCard: (card) => set({ card }, false, { type: 'setCard', card }),
   cardError: '',
   setCardError: (cardError) =>
     set({ cardError }, false, { type: 'setCardError', cardError }),
+  paymentMode: 'card',
+  setPaymentMode: (mode) =>
+    set({ paymentMode: mode }, false, { type: 'setPaymentMode', mode }),
   createSub: (sub) => sub.create(set, get, { sub }),
   address: {
     firstName: '',
@@ -188,15 +192,22 @@ const store = (set, get) => ({
   trackers: [],
   updateTrackerStatus: ({ status, _id }) =>
     tracker.updateTrackerStatus(set, get, { status, _id }),
+  updateSubStatus: ({ status }) => sub.updateSubStatus(set, get, { status }),
+  getSub: () => sub.getSub(set, get),
   payments: {},
   setPayments: (payments) =>
     set({ payments }, false, { type: 'setPayments', payments }),
+  profileTab: 'trackers',
+  setProfileTab: (profileTab) =>
+    set({ profileTab }, false, { type: 'setProfileTab', profileTab }),
+  giftCards: [],
+  getGiftCards: () => gc.getGiftCards(set, get),
 });
 
 const persistParams = {
   partialize: (state) =>
     Object.fromEntries(
-      Object.entries(state).filter(([key]) => [].includes(key))
+      Object.entries(state).filter(([key]) => ['planSlug'].includes(key))
     ),
   getStorage: () => ({
     // Returning a promise from getItem is necessary to avoid issues with hydration

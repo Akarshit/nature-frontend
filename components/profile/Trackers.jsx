@@ -1,5 +1,5 @@
 import { Flex, Heading, Text } from '@chakra-ui/react';
-import { NavBar, TrackerCard } from 'components';
+import { NavBar, ProfileNav, TrackerCard } from 'components';
 import { useEffect, useState } from 'react';
 
 import { orderBy } from 'lodash';
@@ -23,10 +23,8 @@ export default function Trackers() {
     ['startDate'],
     ['desc']
   );
-
   return (
-    <Flex direction={'column'} minH="100vh" bgColor={'blackAlpha.100'}>
-      <NavBar path="/reserve.png"></NavBar>
+    <Flex direction={'column'}>
       <Heading
         size="lg"
         align="center"
@@ -52,7 +50,7 @@ export default function Trackers() {
       </Heading>
       <Flex direction="column" justify="center" p={5} flexFlow="wrap">
         {expiredTrackers.map((t) => (
-          <TrackerCard key={t._id} tracker={t} />
+          <TrackerCard key={t._id} tracker={t} disabled />
         ))}
       </Flex>
     </Flex>

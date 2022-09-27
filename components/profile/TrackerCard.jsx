@@ -10,7 +10,7 @@ import { useUIStore } from '#store';
 
 export default function TrackerCard(props) {
   const { updateTrackerStatus } = useUIStore((state) => state);
-  const { tracker } = props;
+  const { tracker, disabled } = props;
   const { outing, startDate, endDate, groupSize, equipmentType, status } =
     tracker;
   const { name } = outing;
@@ -81,35 +81,37 @@ export default function TrackerCard(props) {
           <Text mr={3}>{trackerDetails[4].value}</Text>
         </Flex>
       </Flex>
-      <Flex justify={'center'} align={'center'} my={2}>
-        <IconButton
-          variant="outline"
-          colorScheme="green"
-          aria-label="Pause"
-          fontSize="20px"
-          icon={status === 'active' ? <IoIosPause /> : <IoIosPlay />}
-          mx={2}
-          borderRadius={20}
-          onClick={() =>
-            updateTrackerStatus({
-              _id: tracker._id,
-              status: status === 'active' ? 'paused' : 'active',
-            })
-          }
-        />
-        <IconButton
-          variant="outline"
-          colorScheme="red"
-          aria-label="Cancel"
-          fontSize="20px"
-          icon={<IoClose />}
-          mx={2}
-          borderRadius={20}
-          onClick={() =>
-            updateTrackerStatus({ _id: tracker._id, status: 'deleted' })
-          }
-        />
-      </Flex>
+      {!disabled && (
+        <Flex justify={'center'} align={'center'} my={2}>
+          <IconButton
+            variant="outline"
+            colorScheme="green"
+            aria-label="Pause"
+            fontSize="20px"
+            icon={status === 'active' ? <IoIosPause /> : <IoIosPlay />}
+            mx={2}
+            borderRadius={20}
+            onClick={() =>
+              updateTrackerStatus({
+                _id: tracker._id,
+                status: status === 'active' ? 'paused' : 'active',
+              })
+            }
+          />
+          <IconButton
+            variant="outline"
+            colorScheme="red"
+            aria-label="Cancel"
+            fontSize="20px"
+            icon={<IoClose />}
+            mx={2}
+            borderRadius={20}
+            onClick={() =>
+              updateTrackerStatus({ _id: tracker._id, status: 'deleted' })
+            }
+          />
+        </Flex>
+      )}
     </Flex>
   );
 }

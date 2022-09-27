@@ -39,11 +39,7 @@ export const updateUser = async (set, get, { user, calle }) => {
 const postUpdateUser = async (set, get) => {
   // We should get these after user's login
   // 1. Get their subscripition
-  const {
-    success: { sub },
-  } = await api.getSub();
-  console.log('sub is', sub);
-  set({ sub }, false, { type: 'postUpdateUser' });
+  await get().getSub();
 };
 
 export const logoutUser = async (set, get) => {

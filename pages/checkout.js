@@ -1,6 +1,7 @@
 import {
   Billing,
   NavBar,
+  PaymentAction,
   PaymentWidget,
   TrackerCheckoutDetails,
 } from 'components';
@@ -10,7 +11,6 @@ import { useEffect, useState } from 'react';
 import { useUIStore } from '#store';
 
 export default function Checkout() {
-  const [card, setCard] = useState();
   const sub = useUIStore((state) => state.sub);
   const noPayment = !!sub?._id;
   return (
@@ -37,17 +37,20 @@ export default function Checkout() {
                 borderRadius={10}
                 boxShadow="dark-lg"
               >
-                <PaymentWidget setCard={setCard} />
+                <PaymentWidget />
                 <Billing />
               </Flex>
             </Flex>
           )}
           <Flex
-            direction="column"
+            direction={['column']}
             w={['100%', '50%']}
-            justify={'space-between'}
+            justify={'space-evenly'}
           >
-            <TrackerCheckoutDetails card={card} />
+            <TrackerCheckoutDetails />
+            <Flex w="100%" justify={'center'}>
+              <PaymentAction />
+            </Flex>
           </Flex>
         </Flex>
       </Flex>

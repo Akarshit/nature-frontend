@@ -5,27 +5,62 @@ import { Loading } from 'components';
 import shallow from 'zustand/shallow';
 import { useUIStore } from '#store';
 
-export default function PaymentWidget({ setCard }) {
+const NavButton = ({ children, onClick, isActive }) => {
+  return (
+    <Flex>
+      <Button
+        borderBottomRadius={0}
+        mr="1px"
+        colorScheme={'green'}
+        onClick={onClick}
+        isActive={isActive}
+      >
+        {children}
+      </Button>
+    </Flex>
+  );
+};
+
+export default function PaymentWidget() {
   const cardBox = useRef();
-  const { setPayments } = useUIStore((state) => state, shallow);
+  const { setPayments, setCard, paymentMode, setPaymentMode } = useUIStore(
+    (state) => state,
+    shallow
+  );
   const appId = process.env.NEXT_PUBLIC_APP_ID;
   const locationId = process.env.NEXT_PUBLIC_LOCATION_ID;
   const [loading, setLoading] = useState(true);
 
-  async function initializeCard(payments) {
-    const cardEl = await payments.card();
-    setPayments(payments);
-    if (!cardBox.current?.getInnerHTML()) {
-      await cardEl.attach('#card-container');
+  const elementId =
+    paymentMode === 'card' ? 'card-container' : 'gift-card-container';
+
+  const toggleNav = async () => {
+    const newPaymentMode = paymentMode === 'card' ? 'gift-card' : 'card';
+    setPaymentMode(newPaymentMode);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    attachCard({ force: true, paymentMode: newPaymentMode });
+  };
+
+  async function initializeCard(payments, options) {
+    let cardEl;
+    if (options?.paymentMode === 'card') {
+      cardEl = await payments.card();
+    } else {
+      cardEl = await payments.giftCard();
     }
+    if (options?.force || !cardBox.current?.getInnerHTML()) {
+      cardBox.current.innerHTML = '';
+      await cardEl.attach(`#${options.paymentMode}-container`);
+    }
+    setPayments(payments);
     return cardEl;
   }
 
-  const attachCard = async () => {
+  const attachCard = async (options) => {
     const payments = window.Square.payments(appId, locationId);
-    let cardEl;
     try {
-      cardEl = await initializeCard(payments);
+      const cardEl = await initializeCard(payments, options);
+      cardEl.toJSON = () => ({ hidden: 'to help redux devtools :)' });
       setCard(cardEl);
       setLoading(false);
     } catch (e) {
@@ -43,7 +78,7 @@ export default function PaymentWidget({ setCard }) {
       script.async = true;
       script.addEventListener('load', () => {
         // Attach card
-        attachCard();
+        attachCard({ paymentMode: 'card' });
       });
 
       const script2 = document.createElement('script');
@@ -59,12 +94,29 @@ export default function PaymentWidget({ setCard }) {
 
   return (
     <Flex direction={'column'}>
-      <Text fontSize={'2xl'} fontWeight={400} my={3} fontFamily="sans-serif">
-        Enter Card Details:
-      </Text>
-      <Flex direction="column" mt={3} pos="relative" minH={'100px'}>
-        <Loading mode={'control'} loading={loading} />
-        <Flex id="card-container" ref={cardBox}></Flex>
+      <Flex>
+        <NavButton onClick={toggleNav} isActive={paymentMode === 'card'}>
+          Card
+        </NavButton>
+        <NavButton onClick={toggleNav} isActive={paymentMode === 'gift-card'}>
+          Gift Card
+        </NavButton>
+      </Flex>
+      <Flex
+        direction={'column'}
+        borderWidth="1px"
+        borderColor={'green.500'}
+        borderRadius={5}
+        mt={'-2px'}
+        pl={2}
+      >
+        <Text fontSize={'2xl'} fontWeight={400} my={3} fontFamily="sans-serif">
+          Enter Card Details:
+        </Text>
+        <Flex direction="column" mt={3} pos="relative" minH={'100px'}>
+          <Loading mode={'control'} loading={loading} />
+          <Flex id={elementId} ref={cardBox}></Flex>
+        </Flex>
       </Flex>
     </Flex>
   );

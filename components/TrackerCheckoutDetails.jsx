@@ -3,63 +3,21 @@ import { Button, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import { Loading } from 'components';
 import { convertDateToUTC } from 'utils';
 import shallow from 'zustand/shallow';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useUIStore } from '#store';
 
-const PaymentButton = ({ handlePayment }) => {
-  const { planSlug, plans, sub } = useUIStore((state) => state, shallow);
-  let buttonText = 'Create Tracker';
-  if (!sub?._id) {
-    // No subscription
-    const paymentAmount = plans?.find((plan) => plan.slug === planSlug)?.cost
-      .amount;
-    buttonText = `Pay $${paymentAmount}`;
-  }
-  return (
-    <Button
-      id="card-button"
-      type="button"
-      colorScheme={'green'}
-      onClick={handlePayment}
-      w="50%"
-    >
-      {buttonText}
-    </Button>
-  );
-};
-
-export default function TrackerCheckoutDetails({ card }) {
-  const router = useRouter();
+export default function TrackerCheckoutDetails() {
   const {
     groupSize,
     equipmentType,
     startDate: checkin,
     endDate: checkout,
   } = useUIStore((state) => state.trackerInput, shallow);
-  const {
-    searchInput,
-    initializePayment,
-    outing,
-    planSlug,
-    setPlanSlug,
-    setLoading,
-    plans,
-    updateUser,
-    sub,
-  } = useUIStore((state) => state, shallow);
+  const { searchInput, outing, planSlug, setPlanSlug, sub } = useUIStore(
+    (state) => state,
+    shallow
+  );
   const noPayment = !!sub?._id;
-  const handlePayment = async () => {
-    setLoading(true);
-    const { success, failure } = await initializePayment({ card });
-    if (success) {
-      // reload the user
-      await updateUser();
-      // delete the checkout page from history
-      router.push('/profile/trackers');
-    }
-    setLoading(false);
-  };
   const trackerDetails = [
     {
       label: 'Campground',
@@ -176,9 +134,6 @@ export default function TrackerCheckoutDetails({ card }) {
               <Text>{obj.value}</Text>
             </Flex>
           ))}
-        </Flex>
-        <Flex w="100%" justify={'center'} my={2}>
-          <PaymentButton handlePayment={handlePayment} />
         </Flex>
       </Flex>
     </Flex>

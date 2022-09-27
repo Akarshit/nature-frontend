@@ -53,7 +53,7 @@ function UserDropdown() {
       >
         <UserDropdownRow
           name="Profile"
-          action={() => router.push('/profile/trackers')}
+          action={() => router.push('/profile')}
         />
         <Divider w={'90%'} />
         <UserDropdownRow name="Logout" action={logoutUser} />
